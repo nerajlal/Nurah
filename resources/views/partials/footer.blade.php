@@ -3,7 +3,7 @@
     <div class="footer-content">
         <!-- Brand Column -->
         <div class="footer-col">
-            <div class="footer-logo">Nurah.</div>
+            <div class="footer-logo">Nurah Perfumes</div>
             <p class="footer-tagline">Crafting memories through scents. India's first perfume bar offering exceptional, long-lasting fragrances.</p>
             <div class="footer-social">
                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>

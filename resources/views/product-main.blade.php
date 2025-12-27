@@ -665,10 +665,226 @@
             margin: 0 auto;
         }
 
+    /* Desktop Layout Enhancements */
+    @media (min-width: 900px) {
+        .product-main-wrapper {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* 55% 45% ratio approx */
+            gap: 40px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            align-items: start;
+        }
+
+        .product-gallery-column {
+            position: sticky;
+            top: 20px;
+        }
+
+        .main-image-container {
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 100%; /* Reset max-width from previous CSS */
+            aspect-ratio: auto; /* Allow natural height if needed, or keep 1 */
+        }
+
+        .thumbnail-strip {
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .product-info-column {
+            padding-top: 10px;
+        }
+
+        .product-info {
+            max-width: 100%; /* Reset max-width */
+            padding: 0;
+        }
+
+        .product-name {
+            font-size: 42px;
+        }
+
         .sticky-bottom {
-            max-width: 600px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            box-shadow: none;
+            padding: 20px 0;
+            background: transparent;
+            width: 100%;
+            max-width: 100%;
+            left: auto;
+            right: auto;
+            transform: none;
+            bottom: auto;
+            margin-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .add-to-cart-btn, .buy-now-btn {
+            padding: 18px;
+            font-size: 16px;
+        }
+
+        /* Hide mobile-only elements on desktop if needed */
+        .mobile-header-back {
+            display: none !important;
+        }
+        
+        .footer-spacer {
+            display: none;
+        }
+    }
+
+    /* Related Products CSS - Copied from All Products Style */
+    .related-products-section {
+        margin-top: 40px;
+        padding-bottom: 20px;
+        background: var(--white);
+    }
+    
+    .related-scroll-container {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding: 0 20px 20px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .related-scroll-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Product Card Styles (Ported) */
+    .product-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        cursor: pointer;
+        flex-shrink: 0;
+        min-width: 170px; /* Mobile width */
+        max-width: 170px;
+    }
+
+    .product-image-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1;
+        overflow: hidden;
+        background: var(--bg-light);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .product-card:active .product-image,
+    .product-card:hover .product-image {
+        transform: scale(1.05); /* Zoom effect */
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: var(--gold);
+        color: var(--white);
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .favorite-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--white);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        color: var(--black);
+        padding: 0;
+        line-height: 1;
+    }
+
+    .favorite-btn.active {
+        color: #ff3b30;
+    }
+
+    /* Override .product-info from main page for cards specifically if needed, 
+       but standard class works if we scope or ensure logic matches */
+    .product-card .product-info {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .product-card .product-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--black);
+        margin: 0 0 6px 0;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .product-card .product-price {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0 0 10px 0;
+    }
+
+    .quick-view-btn {
+        width: 100%;
+        padding: 8px;
+        background: var(--black);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+    }
+
+    @media (min-width: 900px) {
+        .related-products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .product-card {
+            min-width: 240px; /* Desktop width */
+            max-width: 240px;
+        }
+
+        .quick-view-btn {
+            padding: 10px;
         }
     }
 </style>
@@ -676,271 +892,340 @@
 
 @section('content')
 
-    <!-- Mini Header with Back Button (In-Content) -->
-    <div style="background:var(--white); padding:10px 15px; display:flex; align-items:center; gap:10px; border-bottom:1px solid #eee;">
+    <!-- Mini Header with Back Button (Mobile Only) -->
+    <div class="mobile-header-back" style="background:var(--white); padding:10px 15px; display:flex; align-items:center; gap:10px; border-bottom:1px solid #eee;">
         <button onclick="history.back()" style="border:none; background:none; font-size:24px; cursor:pointer;">←</button>
         <span style="font-family:'Playfair Display',serif; font-weight:700; font-size:18px;">Product Details</span>
     </div>
 
-    <!-- Image Gallery -->
-    <div class="image-gallery">
-        <div class="main-image-container">
-            <span class="image-badge">Bestseller</span>
-            <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" alt="Inglorious" class="main-image" id="mainImage">
-            <div class="image-dots">
-                <div class="image-dot active"></div>
-                <div class="image-dot"></div>
-                <div class="image-dot"></div>
-                <div class="image-dot"></div>
-                <div class="image-dot"></div>
+    <div class="product-main-wrapper">
+        <!-- Left Column: Gallery -->
+        <div class="product-gallery-column">
+            <div class="image-gallery">
+                <div class="main-image-container">
+                    <span class="image-badge">Bestseller</span>
+                    <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" alt="Inglorious" class="main-image" id="mainImage">
+                    <div class="image-dots">
+                        <div class="image-dot active"></div>
+                        <div class="image-dot"></div>
+                        <div class="image-dot"></div>
+                        <div class="image-dot"></div>
+                        <div class="image-dot"></div>
+                    </div>
+                </div>
+                <div class="thumbnail-strip">
+                    <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" class="thumbnail active" onclick="changeImage(this, 0)" alt="View 1">
+                    <img src="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 1)" alt="View 2">
+                    <img src="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 2)" alt="View 3">
+                    <img src="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=416" data-full-img="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=1080" class="thumbnail" onclick="changeImage(this, 3)" alt="View 4">
+                    <img src="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 4)" alt="View 5">
+                </div>
+            </div>
+            
+            <!-- Desktop-only details that fit well on left side potentially, keeping it simple for now -->
+        </div>
+
+        <!-- Right Column: Product Info -->
+        <div class="product-info-column">
+            <div class="product-info">
+                <div class="product-header">
+                    <h1 class="product-name">Inglorious</h1>
+                    <div class="product-price" id="productPrice">Rs. 929.00</div>
+                    <div class="rating-row">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="rating-text">5.0 (2 reviews)</span>
+                    </div>
+                </div>
+
+                <!-- Promo Banner -->
+                <div class="promo-banner">
+                    🎁 BUY 2 GET 1 FREE! Use code: <span class="promo-code">B2G1</span>
+                </div>
+
+                <!-- Size Selection -->
+                <div class="option-section">
+                    <label class="option-label">Select Size</label>
+                    <div class="size-options">
+                        <div class="size-option active" data-price="929" onclick="selectSize(this)">
+                            <span class="size-label">50ml</span>
+                            <span class="size-price">₹929</span>
+                        </div>
+                        <div class="size-option" data-price="1699" onclick="selectSize(this)">
+                            <span class="size-label">100ml</span>
+                            <span class="size-price">₹1,699</span>
+                        </div>
+                        <div class="size-option" data-price="2499" onclick="selectSize(this)">
+                            <span class="size-label">100ml</span>
+                            <span class="size-price">Personalized</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intensity -->
+                <div class="option-section">
+                    <label class="option-label">Intensity</label>
+                    <div class="intensity-container">
+                        <div class="intensity-label">Long Lasting & Strong</div>
+                        <div class="intensity-bar">
+                            <div class="intensity-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="notes-card">
+                    <div class="notes-title">Notes & Composition</div>
+                    <div class="note-item">
+                        <div class="note-type">▲ Top Notes</div>
+                        <div class="note-list">Lime, Grapefruit</div>
+                    </div>
+                    <div class="note-item">
+                        <div class="note-type">■ Middle Notes</div>
+                        <div class="note-list">Watermelon</div>
+                    </div>
+                    <div class="note-item">
+                        <div class="note-type">▼ Base Notes</div>
+                        <div class="note-list">Seaweed, Ambergris</div>
+                    </div>
+                </div>
+
+                <!-- Personality -->
+                <div class="personality-section">
+                    <label class="option-label">Personality</label>
+                    <img src="https://myop.in/cdn/shop/files/Men_allday_personality.png?v=1715808037&width=1030" alt="Personality" class="personality-image">
+                </div>
+
+                <!-- Quantity -->
+                <div class="quantity-section">
+                    <label class="option-label" style="margin: 0;">Quantity</label>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="decreaseQty()">−</button>
+                        <div class="qty-display" id="quantity">1</div>
+                        <button class="qty-btn" onclick="increaseQty()">+</button>
+                    </div>
+                </div>
+
+                 <!-- Action Buttons (Moved inside flow for desktop) -->
+                 <div class="sticky-bottom">
+                    <button class="add-to-cart-btn" onclick="addToCart()">
+                        Add to Cart
+                    </button>
+                    <button class="buy-now-btn" onclick="window.location.href='/checkout'">
+                        Buy Now
+                    </button>
+                </div>
+
+                <!-- Product Details Accordion -->
+                <div class="details-section">
+                    <div class="detail-accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">Description</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-text">
+                                <strong>Clean. Vivid. Sensual.</strong>
+                                <br><br>
+                                A harmonious union of citrus, aromatic and spicy accords, 'Inglorious' guarantees a fresh start for the go-getter in you.
+                                <br><br>
+                                A fragrance from the scent family of fresh is a must-have in the perfume collection for someone who loves crisp and clean fragrances. With breathtaking notes of fresh grapefruit and lime that make way for refreshing watermelon; finally rounded off by notes of seaweed and ambergris as base.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">Key Features</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="detail-highlight">
+                                <span class="highlight-badge">50% Oil Concentration</span>
+                                <p class="highlight-text">Experience the captivating scent that has been reformulated for the Indian tropical weather.</p>
+                            </div>
+                            <div class="accordion-text">
+                                • Long-lasting fragrance (5-6 hours)<br>
+                                • High-quality European perfume oils<br>
+                                • Perfect for daily wear<br>
+                                • Fresh and energizing scent<br>
+                                • Suitable for all occasions
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span class="accordion-title">Shipping & Returns</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-text">
+                                <strong>Shipping:</strong><br>
+                                • Free shipping on orders above ₹399<br>
+                                • Delivery within 4-10 business days<br>
+                                • Order tracking available<br><br>
+                                <strong>Returns:</strong><br>
+                                • 14-day return policy<br>
+                                • Product must be unused and in original packaging<br>
+                                • Sale items are non-returnable
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews -->
+                <div class="reviews-section">
+                    <div class="reviews-header">
+                        <h2 class="reviews-title">Customer Reviews</h2>
+                        <button style="background: none; border: none; color: var(--gold); font-weight: 700; font-size: 14px;">Write Review</button>
+                    </div>
+
+                    <div class="reviews-summary">
+                        <div class="review-score">5.0</div>
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                        <div class="review-count">Based on 2 reviews</div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">Lipsa Dhar</div>
+                                <div class="review-stars-small">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <div class="review-text">
+                            <div class="review-label">Longevity</div>
+                            Love the captivating smell
+                        </div>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">Ajmal Kuppanath</div>
+                                <div class="review-stars-small">⭐⭐⭐⭐⭐</div>
+                            </div>
+                        </div>
+                        <div class="review-text">
+                            <div class="review-label">Good product</div>
+                            good
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQs -->
+                <div class="faq-section">
+                    <h2 class="faq-title">Frequently Asked</h2>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">How to make perfumes last longer?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-text">
+                                First tip: Moisturize your skin before applying perfume. Dry skin tends to absorb scent faster, so using an unscented moisturizer or even a little Vaseline on your pulse points helps lock in the fragrance. Store your perfumes away from direct sunlight and heat.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">Can women use men's perfumes?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-text">
+                                Fragrance knows no gender. Some scents might appeal more to the opposite sex, but really, it's all about what you love. Pick the perfume that makes you feel great.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">What is the right way of applying perfume?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-text">
+                                Apply a moisturiser or vaseline on the skin prior to wearing a perfume. Spritz the perfume on warm points of your body and give it a moment to soak in and settle.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">
+                            <span class="faq-q-text">Are MYOP perfumes long-lasting?</span>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-text">
+                                Yes, MYOP perfumes are seriously long-lasting! We source our perfume oils straight from Europe and reformulated each scent with 50% oil concentration — specially made to thrive in tropical weather.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="thumbnail-strip">
-            <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" class="thumbnail active" onclick="changeImage(this, 0)" alt="View 1">
-            <img src="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 1)" alt="View 2">
-            <img src="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 2)" alt="View 3">
-            <img src="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=416" data-full-img="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=1080" class="thumbnail" onclick="changeImage(this, 3)" alt="View 4">
-            <img src="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 4)" alt="View 5">
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Product Info -->
-    <div class="product-info">
-        <div class="product-header">
-            <h1 class="product-name">Inglorious</h1>
-            <div class="product-price" id="productPrice">Rs. 929.00</div>
-            <div class="rating-row">
-                <span class="stars">⭐⭐⭐⭐⭐</span>
-                <span class="rating-text">5.0 (2 reviews)</span>
-            </div>
-        </div>
-
-        <!-- Promo Banner -->
-        <div class="promo-banner">
-            🎁 BUY 2 GET 1 FREE! Use code: <span class="promo-code">B2G1</span>
-        </div>
-
-        <!-- Size Selection -->
-        <div class="option-section">
-            <label class="option-label">Select Size</label>
-            <div class="size-options">
-                <div class="size-option active" data-price="929" onclick="selectSize(this)">
-                    <span class="size-label">50ml</span>
-                    <span class="size-price">₹929</span>
+    <!-- Related Products -->
+    <div class="related-products-section">
+        <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">You May Also Like</h2>
+        <div class="related-scroll-container">
+            <!-- Product 1 -->
+            <div class="product-card" onclick="window.location.href='/product/black-diamond'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <span class="product-badge">Hot</span>
+                    <img src="https://myop.in/cdn/shop/files/black_diamond_bottle.webp?v=1738927823&width=360" class="product-image" alt="Black Diamond">
                 </div>
-                <div class="size-option" data-price="1699" onclick="selectSize(this)">
-                    <span class="size-label">100ml</span>
-                    <span class="size-price">₹1,699</span>
-                </div>
-                <div class="size-option" data-price="2499" onclick="selectSize(this)">
-                    <span class="size-label">100ml</span>
-                    <span class="size-price">Personalized</span>
+                <div class="product-info">
+                    <h3 class="product-name">Black Diamond</h3>
+                    <p class="product-price">₹899</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Intensity -->
-        <div class="option-section">
-            <label class="option-label">Intensity</label>
-            <div class="intensity-container">
-                <div class="intensity-label">Long Lasting & Strong</div>
-                <div class="intensity-bar">
-                    <div class="intensity-fill"></div>
+            <!-- Product 2 -->
+            <div class="product-card" onclick="window.location.href='/product/oud-gold'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="https://myop.in/cdn/shop/files/oud_gold_bottle.webp?v=1738927823&width=360" class="product-image" alt="Oud Gold">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Oud Gold</h3>
+                    <p class="product-price">₹1,299</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Notes -->
-        <div class="notes-card">
-            <div class="notes-title">Notes & Composition</div>
-            <div class="note-item">
-                <div class="note-type">▲ Top Notes</div>
-                <div class="note-list">Lime, Grapefruit</div>
-            </div>
-            <div class="note-item">
-                <div class="note-type">■ Middle Notes</div>
-                <div class="note-list">Watermelon</div>
-            </div>
-            <div class="note-item">
-                <div class="note-type">▼ Base Notes</div>
-                <div class="note-list">Seaweed, Ambergris</div>
-            </div>
-        </div>
-
-        <!-- Personality -->
-        <div class="personality-section">
-            <label class="option-label">Personality</label>
-            <img src="https://myop.in/cdn/shop/files/Men_allday_personality.png?v=1715808037&width=1030" alt="Personality" class="personality-image">
-        </div>
-
-        <!-- Quantity -->
-        <div class="quantity-section">
-            <label class="option-label" style="margin: 0;">Quantity</label>
-            <div class="quantity-controls">
-                <button class="qty-btn" onclick="decreaseQty()">−</button>
-                <div class="qty-display" id="quantity">1</div>
-                <button class="qty-btn" onclick="increaseQty()">+</button>
-            </div>
-        </div>
-
-        <!-- Share -->
-        <!-- <div class="share-section">
-            <div class="share-title">Share Product</div>
-            <div class="share-buttons">
-                <button class="share-btn" onclick="share('facebook')">📘</button>
-                <button class="share-btn" onclick="share('pinterest')">📌</button>
-                <button class="share-btn" onclick="share('whatsapp')">💬</button>
-                <button class="share-btn" onclick="share('email')">✉️</button>
-            </div>
-        </div> -->
-    </div>
-
-    <!-- Product Details Accordion -->
-    <div class="details-section">
-        <div class="detail-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="accordion-title">Description</span>
-                <span class="accordion-icon">▼</span>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-text">
-                    <strong>Clean. Vivid. Sensual.</strong>
-                    <br><br>
-                    A harmonious union of citrus, aromatic and spicy accords, 'Inglorious' guarantees a fresh start for the go-getter in you.
-                    <br><br>
-                    A fragrance from the scent family of fresh is a must-have in the perfume collection for someone who loves crisp and clean fragrances. With breathtaking notes of fresh grapefruit and lime that make way for refreshing watermelon; finally rounded off by notes of seaweed and ambergris as base.
+            <!-- Product 3 -->
+            <div class="product-card" onclick="window.location.href='/product/rose-vanilla'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="https://myop.in/cdn/shop/files/rose_vanilla_bottle.webp?v=1738927823&width=360" class="product-image" alt="Rose Vanilla">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Rose Vanilla</h3>
+                    <p class="product-price">₹999</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
-        </div>
 
-        <div class="detail-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="accordion-title">Key Features</span>
-                <span class="accordion-icon">▼</span>
-            </div>
-            <div class="accordion-content">
-                <div class="detail-highlight">
-                    <span class="highlight-badge">50% Oil Concentration</span>
-                    <p class="highlight-text">Experience the captivating scent that has been reformulated for the Indian tropical weather.</p>
+            <!-- Product 4 -->
+            <div class="product-card" onclick="window.location.href='/product/musk-intense'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="https://myop.in/cdn/shop/files/musk_intense_bottle.webp?v=1738927823&width=360" class="product-image" alt="Musk Intense">
                 </div>
-                <div class="accordion-text">
-                    • Long-lasting fragrance (5-6 hours)<br>
-                    • High-quality European perfume oils<br>
-                    • Perfect for daily wear<br>
-                    • Fresh and energizing scent<br>
-                    • Suitable for all occasions
-                </div>
-            </div>
-        </div>
-
-        <div class="detail-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="accordion-title">Shipping & Returns</span>
-                <span class="accordion-icon">▼</span>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-text">
-                    <strong>Shipping:</strong><br>
-                    • Free shipping on orders above ₹399<br>
-                    • Delivery within 4-10 business days<br>
-                    • Order tracking available<br><br>
-                    <strong>Returns:</strong><br>
-                    • 14-day return policy<br>
-                    • Product must be unused and in original packaging<br>
-                    • Sale items are non-returnable
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reviews -->
-    <div class="reviews-section">
-        <div class="reviews-header">
-            <h2 class="reviews-title">Customer Reviews</h2>
-            <button style="background: none; border: none; color: var(--gold); font-weight: 700; font-size: 14px;">Write Review</button>
-        </div>
-
-        <div class="reviews-summary">
-            <div class="review-score">5.0</div>
-            <div class="review-stars">⭐⭐⭐⭐⭐</div>
-            <div class="review-count">Based on 2 reviews</div>
-        </div>
-
-        <div class="review-card">
-            <div class="review-header">
-                <div>
-                    <div class="reviewer-name">Lipsa Dhar</div>
-                    <div class="review-stars-small">⭐⭐⭐⭐⭐</div>
-                </div>
-            </div>
-            <div class="review-text">
-                <div class="review-label">Longevity</div>
-                Love the captivating smell
-            </div>
-        </div>
-
-        <div class="review-card">
-            <div class="review-header">
-                <div>
-                    <div class="reviewer-name">Ajmal Kuppanath</div>
-                    <div class="review-stars-small">⭐⭐⭐⭐⭐</div>
-                </div>
-            </div>
-            <div class="review-text">
-                <div class="review-label">Good product</div>
-                good
-            </div>
-        </div>
-    </div>
-
-    <!-- FAQs -->
-    <div class="faq-section">
-        <h2 class="faq-title">Frequently Asked</h2>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span class="faq-q-text">How to make perfumes last longer?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-                <div class="faq-answer-text">
-                    First tip: Moisturize your skin before applying perfume. Dry skin tends to absorb scent faster, so using an unscented moisturizer or even a little Vaseline on your pulse points helps lock in the fragrance. Store your perfumes away from direct sunlight and heat.
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span class="faq-q-text">Can women use men's perfumes?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-                <div class="faq-answer-text">
-                    Fragrance knows no gender. Some scents might appeal more to the opposite sex, but really, it's all about what you love. Pick the perfume that makes you feel great.
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span class="faq-q-text">What is the right way of applying perfume?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-                <div class="faq-answer-text">
-                    Apply a moisturiser or vaseline on the skin prior to wearing a perfume. Spritz the perfume on warm points of your body and give it a moment to soak in and settle.
-                </div>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
-                <span class="faq-q-text">Are MYOP perfumes long-lasting?</span>
-                <span class="faq-toggle">+</span>
-            </div>
-            <div class="faq-answer">
-                <div class="faq-answer-text">
-                    Yes, MYOP perfumes are seriously long-lasting! We source our perfume oils straight from Europe and reformulated each scent with 50% oil concentration — specially made to thrive in tropical weather.
+                <div class="product-info">
+                    <h3 class="product-name">Musk Intense</h3>
+                    <p class="product-price">₹1,099</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -949,15 +1234,12 @@
     <!-- Footer Spacer -->
     <div class="footer-spacer"></div>
 
-    <!-- Sticky Bottom Bar -->
-    <div class="sticky-bottom">
-        <button class="add-to-cart-btn" onclick="addToCart()">
-            Add to Cart
-        </button>
-        <button class="buy-now-btn" onclick="window.location.href='/checkout'">
-            Buy Now
-        </button>
-    </div>
+    <!-- Mobile Sticky Bottom Bar (Only visible on mobile due to desktop CSS override) -->
+    <!-- Note: We moved the buttons inside .product-info-column for desktop, 
+         but on mobile we might want them fixed. 
+         With the current CSS for desktop .sticky-bottom, it transforms into a static block.
+         On mobile, it keeps original fixed styles. Good. 
+    -->
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">Added to cart! 🎉</div>

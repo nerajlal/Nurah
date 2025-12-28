@@ -5,7 +5,7 @@
 @section('content')
 <div class="flex justify-between items-center mb-6">
     <h1 class="text-xl font-semibold text-gray-800">Products</h1>
-    <button class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm">Add product</button>
+    <a href="{{ route('admin.products.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm">Add product</a>
 </div>
 
 <div class="card bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -31,38 +31,45 @@
                     <th class="px-6 py-3">Inventory</th>
                     <th class="px-6 py-3">Type</th>
                     <th class="px-6 py-3">Vendor</th>
+                    <th class="px-6 py-3 w-20"></th>
                  </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500"></td>
+                <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="window.location='{{ route('admin.products.edit', 1) }}'">
+                    <td class="px-6 py-4" onclick="event.stopPropagation()"><input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500"></td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="h-10 w-10 bg-gray-100 rounded border border-gray-200 flex items-center justify-center">
                                 <i class="fas fa-image text-gray-400"></i>
                             </div>
-                            <span class="font-medium text-gray-800 hover:underline cursor-pointer">Midnight Oud 50ml</span>
+                            <span class="font-medium text-gray-800 hover:underline">Midnight Oud 50ml</span>
                         </div>
                     </td>
                     <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-green-100 text-green-800 text-xs font-semibold">Active</span></td>
                     <td class="px-6 py-4 text-gray-500">25 in stock</td>
                     <td class="px-6 py-4">Perfume</td>
                     <td class="px-6 py-4">Nurah</td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-pen"></i></button>
+                    </td>
                 </tr>
-                 <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500"></td>
+                 <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="window.location='{{ route('admin.products.edit', 2) }}'">
+                    <td class="px-6 py-4" onclick="event.stopPropagation()"><input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500"></td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
                             <div class="h-10 w-10 bg-gray-100 rounded border border-gray-200 flex items-center justify-center">
                                 <i class="fas fa-image text-gray-400"></i>
                             </div>
-                            <span class="font-medium text-gray-800 hover:underline cursor-pointer">Rose & Amber Gift Set</span>
+                            <span class="font-medium text-gray-800 hover:underline">Rose & Amber Gift Set</span>
                         </div>
                     </td>
                     <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-gray-200 text-gray-800 text-xs font-semibold">Draft</span></td>
                     <td class="px-6 py-4 text-gray-500">0 in stock</td>
                     <td class="px-6 py-4">Gift Set</td>
                     <td class="px-6 py-4">Nurah</td>
+                     <td class="px-6 py-4 text-right">
+                        <button class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-pen"></i></button>
+                    </td>
                 </tr>
             </tbody>
         </table>

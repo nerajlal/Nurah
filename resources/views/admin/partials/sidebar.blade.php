@@ -23,7 +23,13 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.products') }}" class="sidebar-item {{ request()->routeIs('admin.products') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                <a href="{{ route('admin.collections') }}" class="sidebar-item {{ request()->routeIs('admin.collections*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                    <i class="fas fa-layer-group w-5 text-center"></i>
+                    <span>Collections</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.products') }}" class="sidebar-item {{ request()->routeIs('admin.products*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
                     <i class="fas fa-tag w-5 text-center"></i>
                     <span>Products</span>
                 </a>

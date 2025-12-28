@@ -35,7 +35,18 @@ Route::view('/admin/orders', 'admin.orders')->name('admin.orders');
 Route::get('/admin/orders/{id}', function ($id) {
     return view('admin.orders.show', ['id' => $id]);
 })->name('admin.orders.show');
+
+Route::view('/admin/collections', 'admin.collections.index')->name('admin.collections');
+Route::view('/admin/collections/create', 'admin.collections.create')->name('admin.collections.create');
+Route::get('/admin/collections/{id}', function ($id) {
+    return view('admin.collections.show', ['id' => $id]);
+})->name('admin.collections.show');
+
 Route::view('/admin/products', 'admin.products')->name('admin.products');
+Route::view('/admin/products/create', 'admin.products.create')->name('admin.products.create');
+Route::get('/admin/products/{id}/edit', function ($id) {
+    return view('admin.products.edit', ['id' => $id]);
+})->name('admin.products.edit');
 Route::view('/admin/customers', 'admin.customers')->name('admin.customers');
 Route::view('/admin/analytics', 'admin.analytics')->name('admin.analytics');
 Route::view('/admin/discounts', 'admin.discounts')->name('admin.discounts');

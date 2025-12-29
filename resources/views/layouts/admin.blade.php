@@ -34,6 +34,11 @@
         <main class="flex-1 overflow-y-auto p-4 sm:p-8">
             <div class="max-w-5xl mx-auto space-y-6">
                 @yield('content')
+
+                <!-- Admin Footer -->
+                <div class="mt-10 pt-6 border-t border-gray-200 text-center text-xs text-gray-400">
+                    Developed by <a href="https://metora.in/" target="_blank" class="font-medium hover:text-gray-600 transition-colors">Metora</a>
+                </div>
             </div>
         </main>
     </div>

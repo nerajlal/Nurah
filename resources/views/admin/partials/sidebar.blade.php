@@ -52,26 +52,32 @@
                     <span>Analytics</span>
                 </a>
             </li>
-            <!-- <li>
-                <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
-                    <i class="fas fa-bullhorn w-5 text-center"></i>
-                    <span>Marketing</span>
-                </a>
-            </li> -->
             <li>
-                <a href="{{ route('admin.discounts') }}" class="sidebar-item {{ request()->routeIs('admin.discounts') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                <a href="{{ route('admin.discounts') }}" class="sidebar-item {{ request()->routeIs('admin.discounts*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
                     <i class="fas fa-percent w-5 text-center"></i>
                     <span>Discounts</span>
+                </a>
+            </li>
+
+            <li class="px-3 pt-4 pb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Settings
+            </li>
+            <li>
+                 <a href="{{ route('admin.settings.slider') }}" class="sidebar-item {{ request()->routeIs('admin.settings.slider') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                    <i class="fas fa-images w-5 text-center"></i>
+                    <span>Hero Slider</span>
+                </a>
+            </li>
                 </a>
             </li>
         </ul>
 
     </nav>
 
-    <div class="p-4 border-t border-gray-200">
+    <!-- <div class="p-4 border-t border-gray-200">
         <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 hover:bg-gray-100 transition-colors">
             <i class="fas fa-cog w-5 text-center"></i>
             <span>Settings</span>
         </a>
-    </div>
+    </div> -->
 </aside>

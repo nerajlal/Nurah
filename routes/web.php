@@ -66,3 +66,5 @@ Route::view('/admin/discounts/create', 'admin.discounts.create')->name('admin.di
 Route::get('/admin/discounts/{id}/edit', function ($id) {
     return view('admin.discounts.edit', ['id' => $id]);
 })->name('admin.discounts.edit');
+
+Route::view('/admin/settings/slider', 'admin.settings.slider')->name('admin.settings.slider');

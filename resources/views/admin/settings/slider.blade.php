@@ -21,76 +21,89 @@
         <div class="divide-y divide-gray-200" id="sortable-slides">
             
             <!-- Slide Item 1 -->
-            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
-                <!-- Drag Handle -->
-                <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
-                    <i class="fas fa-grip-vertical"></i>
-                </div>
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
+                
+                <!-- Visuals Row -->
+                <div class="flex items-center gap-4">
+                    <!-- Drag Handle -->
+                    <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
 
-                <!-- Desktop Thumb -->
-                <div class="w-32 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
-                    <img src="https://myop.in/cdn/shop/files/b2g1_6e47992a-e85f-4019-89d5-179ac74e931d.webp?v=1740730153&width=5760" class="w-full h-full object-cover">
-                    <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Desktop</span>
-                </div>
+                    <!-- Desktop Thumb -->
+                    <div class="w-32 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
+                        <img src="https://myop.in/cdn/shop/files/b2g1_6e47992a-e85f-4019-89d5-179ac74e931d.webp?v=1740730153&width=5760" class="w-full h-full object-cover">
+                        <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Desktop</span>
+                    </div>
 
-                <!-- Mobile Thumb -->
-                <div class="w-8 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
-                    <img src="https://myop.in/cdn/shop/files/b2g1_phone.webp?v=1740730153&width=1000" class="w-full h-full object-cover">
-                    <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Mob</span>
+                    <!-- Mobile Thumb -->
+                    <div class="w-8 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
+                        <img src="https://myop.in/cdn/shop/files/b2g1_phone.webp?v=1740730153&width=1000" class="w-full h-full object-cover">
+                        <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Mob</span>
+                    </div>
                 </div>
 
                 <!-- Info -->
-                <div class="flex-1 min-w-0 ml-2">
+                <div class="flex-1 min-w-0">
                     <h3 class="text-sm font-semibold text-gray-900 truncate">Buy 2 Get 1</h3>
                 </div>
 
-                <!-- Status -->
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Active
-                </span>
+                <!-- Meta Row (Status + Actions) -->
+                <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto sm:ml-4 border-t sm:border-t-0 p-2 sm:p-0 border-gray-100">
+                    <!-- Status -->
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
 
-                <!-- Actions -->
-                <div class="flex items-center gap-2 ml-4">
-                    <button class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <!-- Actions -->
+                    <div class="flex items-center gap-2">
+                        <button class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- Slide Item 2 -->
-            <div class="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
-                <!-- Drag Handle -->
-                <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
-                    <i class="fas fa-grip-vertical"></i>
-                </div>
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center gap-4 hover:bg-gray-50 transition-colors group draggable-item" draggable="true">
+                 <!-- Visuals Row -->
+                <div class="flex items-center gap-4">
+                    <!-- Drag Handle -->
+                    <div class="cursor-move text-gray-400 group-hover:text-gray-600 px-2">
+                        <i class="fas fa-grip-vertical"></i>
+                    </div>
 
-                <!-- Desktop Thumb -->
-                <div class="w-32 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
-                    <img src="https://myop.in/cdn/shop/files/banner_elante_chandigarh_copy.webp?v=1764662226&width=5760" class="w-full h-full object-cover">
-                     <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Desktop</span>
-                </div>
+                    <!-- Desktop Thumb -->
+                    <div class="w-32 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
+                        <img src="https://myop.in/cdn/shop/files/banner_elante_chandigarh_copy.webp?v=1764662226&width=5760" class="w-full h-full object-cover">
+                         <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Desktop</span>
+                    </div>
 
-                <!-- Mobile Thumb -->
-                <div class="w-8 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
-                    <img src="https://myop.in/cdn/shop/files/Banner_elante_chandigarh_phone_copy_1.webp?v=1764662226&width=1000" class="w-full h-full object-cover">
-                    <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Mob</span>
+                    <!-- Mobile Thumb -->
+                    <div class="w-8 h-12 bg-gray-100 rounded border border-gray-200 overflow-hidden relative flex-shrink-0">
+                        <img src="https://myop.in/cdn/shop/files/Banner_elante_chandigarh_phone_copy_1.webp?v=1764662226&width=1000" class="w-full h-full object-cover">
+                        <span class="absolute bottom-0 right-0 bg-black/50 text-white text-[10px] px-1">Mob</span>
+                    </div>
                 </div>
 
                 <!-- Info -->
-                <div class="flex-1 min-w-0 ml-2">
+                <div class="flex-1 min-w-0">
                     <h3 class="text-sm font-semibold text-gray-900 truncate">New Store - Chandigarh</h3>
                 </div>
 
-                <!-- Status -->
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    Active
-                </span>
+                <!-- Meta Row (Status + Actions) -->
+                 <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto sm:ml-4 border-t sm:border-t-0 p-2 sm:p-0 border-gray-100">
+                    <!-- Status -->
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Active
+                    </span>
 
-                <!-- Actions -->
-                <div class="flex items-center gap-2 ml-4">
-                    <button class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <!-- Actions -->
+                    <div class="flex items-center gap-2">
+                        <button class="p-2 text-gray-400 hover:text-red-600 transition-colors" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 

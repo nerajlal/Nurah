@@ -89,6 +89,13 @@
                     <i class="fas fa-crown text-yellow-500 ml-auto" title="Premium Feature"></i>
                 </a>
             </li>
+            <li>
+                 <a href="{{ route('admin.blog') }}" class="sidebar-item {{ request()->routeIs('admin.blog*') ? 'active' : '' }} flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 transition-colors">
+                    <i class="fas fa-newspaper w-5 text-center"></i>
+                    <span>Blog & Articles</span>
+                    <i class="fas fa-crown text-yellow-500 ml-auto" title="Premium Feature"></i>
+                </a>
+            </li>
         </ul>
 
     </nav>

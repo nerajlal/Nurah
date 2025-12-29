@@ -17,7 +17,7 @@
     </div>
 
     <!-- Managers List -->
-    <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden overflow-x-auto">
         <table class="w-full text-left text-sm text-gray-600">
             <thead class="bg-gray-50 text-xs uppercase font-medium text-gray-500 border-b border-gray-200">
                 <tr>

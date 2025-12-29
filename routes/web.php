@@ -55,6 +55,11 @@ Route::get('/admin/products/{id}/edit', function ($id) {
 })->name('admin.products.edit');
 
 Route::view('/admin/reviews', 'admin.reviews.index')->name('admin.reviews');
+Route::view('/admin/blog', 'admin.blog.index')->name('admin.blog');
+Route::view('/admin/blog/create', 'admin.blog.create')->name('admin.blog.create');
+Route::get('/admin/blog/{id}/edit', function ($id) {
+    return view('admin.blog.edit', ['id' => $id]);
+})->name('admin.blog.edit');
 Route::view('/admin/attributes', 'admin.attributes.index')->name('admin.attributes');
 
 Route::view('/admin/customers', 'admin.customers')->name('admin.customers');

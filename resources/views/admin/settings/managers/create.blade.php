@@ -41,7 +41,7 @@
         <!-- Permissions (Mock) -->
         <div>
             <span class="block text-sm font-medium text-gray-700 mb-3">Permissions</span>
-            <div class="space-y-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label class="flex items-center gap-2">
                     <input type="checkbox" checked class="rounded border-gray-300 text-green-600 focus:ring-green-500">
                     <span class="text-sm text-gray-700">Manage Orders</span>
@@ -52,7 +52,19 @@
                 </label>
                  <label class="flex items-center gap-2">
                     <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
-                    <span class="text-sm text-gray-700">Access Analytics</span>
+                    <span class="text-sm text-gray-700">Manage Collections</span>
+                </label>
+                 <label class="flex items-center gap-2">
+                    <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                    <span class="text-sm text-gray-700">Manage Bundles</span>
+                </label>
+                 <label class="flex items-center gap-2">
+                    <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                    <span class="text-sm text-gray-700">Manage Discounts</span>
+                </label>
+                 <label class="flex items-center gap-2">
+                    <input type="checkbox" class="rounded border-gray-300 text-green-600 focus:ring-green-500">
+                    <span class="text-sm text-gray-700">Manage Hero Section</span>
                 </label>
             </div>
         </div>

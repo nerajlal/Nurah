@@ -63,19 +63,19 @@
         <p class="text-xs text-gray-400 mt-2">vs. 41 last period</p>
     </div>
 
-    <!-- AOV -->
+    <!-- Low Stock Items (Replaces AOV) -->
      <div class="card bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
         <div class="flex justify-between items-start mb-4">
-             <div class="p-2 bg-orange-50 rounded-lg">
-                <i class="fas fa-chart-line text-orange-600"></i>
+             <div class="p-2 bg-red-50 rounded-lg">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
             </div>
              <span class="text-xs font-medium text-red-600 bg-red-100 px-2 py-1 rounded-full flex items-center">
-                <i class="fas fa-arrow-down mr-1"></i> 2%
+                Action Needed
             </span>
         </div>
-        <h3 class="text-sm font-medium text-gray-500 mb-1">Avg. Order Value</h3>
-        <span class="text-2xl font-bold text-gray-900">₹364.00</span>
-        <p class="text-xs text-gray-400 mt-2">vs. ₹371.00 last period</p>
+        <h3 class="text-sm font-medium text-gray-500 mb-1">Low Stock Items</h3>
+        <span class="text-2xl font-bold text-gray-900">3</span>
+        <p class="text-xs text-gray-400 mt-2">Restock required</p>
     </div>
 </div>
 
@@ -139,43 +139,51 @@
         </div>
     </div>
 
-    <!-- Top Products -->
+    <!-- Low Stock Alerts -->
     <div class="card bg-white rounded-lg border border-gray-200 shadow-sm">
-        <div class="p-5 border-b border-gray-100">
-            <h2 class="text-base font-semibold text-gray-800">Top Products</h2>
+        <div class="p-5 border-b border-gray-100 flex justify-between items-center">
+            <h2 class="text-base font-semibold text-gray-800">Low Stock Alerts</h2>
+            <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-0.5 rounded-full">3</span>
         </div>
-        <div class="p-5 space-y-5">
-            <div class="flex items-center gap-4">
-                <div class="h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 shadow-sm border border-gray-200">
-                    <i class="fas fa-image"></i>
+        <div class="p-5 space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 bg-red-50 rounded flex items-center justify-center text-red-500">
+                        <i class="fas fa-exclamation-triangle text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900">Black Musk (50ml)</h4>
+                        <p class="text-xs text-red-500 font-medium">Only 2 left</p>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-medium text-gray-900">Midnight Oud</h4>
-                    <p class="text-xs text-gray-500">24 sold this week</p>
-                </div>
-                <span class="text-sm font-semibold text-gray-800">₹12.5k</span>
+                <button class="text-xs text-gray-500 hover:text-gray-700 border border-gray-200 px-2 py-1 rounded">Restock</button>
             </div>
-             <div class="flex items-center gap-4">
-                <div class="h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 shadow-sm border border-gray-200">
-                    <i class="fas fa-image"></i>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 bg-yellow-50 rounded flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-box-open text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900">Amber Wood (100ml)</h4>
+                        <p class="text-xs text-yellow-600 font-medium">5 left</p>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-medium text-gray-900">Rose & Amber</h4>
-                    <p class="text-xs text-gray-500">18 sold this week</p>
-                </div>
-                <span class="text-sm font-semibold text-gray-800">₹8.1k</span>
+                <button class="text-xs text-gray-500 hover:text-gray-700 border border-gray-200 px-2 py-1 rounded">Restock</button>
             </div>
-             <div class="flex items-center gap-4">
-                <div class="h-12 w-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 shadow-sm border border-gray-200">
-                    <i class="fas fa-image"></i>
+
+             <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="h-10 w-10 bg-yellow-50 rounded flex items-center justify-center text-yellow-600">
+                        <i class="fas fa-box-open text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-medium text-gray-900">Vanilla Essence (Tester)</h4>
+                        <p class="text-xs text-yellow-600 font-medium">8 left</p>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <h4 class="text-sm font-medium text-gray-900">Musk Oil</h4>
-                    <p class="text-xs text-gray-500">12 sold this week</p>
-                </div>
-                <span class="text-sm font-semibold text-gray-800">₹4.2k</span>
+                <button class="text-xs text-gray-500 hover:text-gray-700 border border-gray-200 px-2 py-1 rounded">Restock</button>
             </div>
-            <button class="w-full mt-2 py-2 text-sm text-gray-600 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">View Report</button>
         </div>
     </div>
 </div>

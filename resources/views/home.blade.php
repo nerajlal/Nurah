@@ -130,6 +130,12 @@
     .popup-code-text { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 5px; text-transform: uppercase; }
     .popup-code-value { font-size: 24px; font-weight: 900; color: var(--black); letter-spacing: 2px; }
 
+    /* Newsletter Form */
+    .newsletter-form { display: flex; align-items: center; background: #f9f9f9; padding: 5px; border-radius: 30px; border: 1px solid #eee; }
+    .newsletter-input { flex: 1; border: none; background: transparent; padding: 12px 20px; outline: none; font-size: 14px; color: #333; }
+    .newsletter-btn { background: var(--black); color: var(--white); border: none; padding: 12px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 13px; letter-spacing: 1px; transition: background 0.3s; }
+    .newsletter-btn:hover { background: var(--gold); }
+
     /* Desktop Media Queries */
     @media (min-width: 768px) {
         .section { padding: 80px 20px; }
@@ -498,8 +504,8 @@
             <p class="popup-code-text">USE CODE:</p>
             <p class="popup-code-value">FIRSTSCENT20</p>
         </div>
-        <form class="newsletter-form" style="background: var(--bg-light); border-radius: 25px;">
-            <input type="email" placeholder="Enter your email" class="newsletter-input" style="color: var(--text);">
+        <form class="newsletter-form">
+            <input type="email" placeholder="Enter your email" class="newsletter-input">
             <button type="submit" class="newsletter-btn">JOIN</button>
         </form>
     </div>

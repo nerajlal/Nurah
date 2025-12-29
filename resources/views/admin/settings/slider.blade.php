@@ -11,9 +11,9 @@
             <h1 class="text-2xl font-bold text-gray-800">Hero Slider</h1>
             <p class="text-sm text-gray-500 mt-1">Manage home page hero banner slides for desktop and mobile.</p>
         </div>
-        <button class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-800 transition-colors flex items-center gap-2">
+        <a href="{{ route('admin.settings.slider.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-800 transition-colors flex items-center gap-2">
             <i class="fas fa-plus"></i> Add New Slide
-        </button>
+        </a>
     </div>
 
     <!-- Slides List -->

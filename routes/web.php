@@ -43,6 +43,10 @@ Route::get('/admin/collections/{id}', function ($id) {
 })->name('admin.collections.show');
 
 Route::view('/admin/bundles', 'admin.bundles.index')->name('admin.bundles');
+Route::view('/admin/bundles/create', 'admin.bundles.create')->name('admin.bundles.create');
+Route::get('/admin/bundles/{id}/edit', function ($id) {
+    return view('admin.bundles.edit', ['id' => $id]);
+})->name('admin.bundles.edit');
 
 Route::view('/admin/products', 'admin.products')->name('admin.products');
 Route::view('/admin/products/create', 'admin.products.create')->name('admin.products.create');

@@ -8,8 +8,8 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800">Store Managers</h1>
-            <p class="text-sm text-gray-500 mt-1">Manage store managers and their permissions.</p>
+            <h1 class="text-2xl font-bold text-gray-800">Site Managers</h1>
+            <p class="text-sm text-gray-500 mt-1">Manage site managers and their permissions.</p>
         </div>
         <a href="{{ route('admin.settings.managers.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-lg shadow-sm hover:bg-green-800 transition-colors flex items-center gap-2">
             <i class="fas fa-user-plus"></i> Add Manager
@@ -23,7 +23,6 @@
                 <tr>
                     <th class="px-6 py-3">Name</th>
                     <th class="px-6 py-3">Email</th>
-                    <th class="px-6 py-3">Assigned Store</th>
                     <th class="px-6 py-3">Status</th>
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
@@ -40,7 +39,6 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">john.doe@example.com</td>
-                    <td class="px-6 py-4">Chandigarh Store</td>
                     <td class="px-6 py-4">
                         <!-- Toggle Switch -->
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -65,7 +63,6 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">alice.smith@example.com</td>
-                    <td class="px-6 py-4">Mumbai Store</td>
                     <td class="px-6 py-4">
                          <!-- Toggle Switch -->
                         <label class="relative inline-flex items-center cursor-pointer">

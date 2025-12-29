@@ -36,9 +36,10 @@
                     <td class="px-6 py-4">3 products</td>
                     <td class="px-6 py-4">₹ 1,250.00</td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.bundles.edit', 1) }}" class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
-                            <i class="fas fa-pen"></i>
-                        </a>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                             <a href="{{ route('admin.bundles.edit', 1) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                             <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
                  <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="window.location='{{ route('admin.bundles.edit', 2) }}'">
@@ -55,9 +56,10 @@
                     <td class="px-6 py-4">2 products</td>
                     <td class="px-6 py-4">₹ 1000.00</td>
                     <td class="px-6 py-4 text-right">
-                        <a href="{{ route('admin.bundles.edit', 2) }}" class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="event.stopPropagation()">
-                            <i class="fas fa-pen"></i>
-                        </a>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                             <a href="{{ route('admin.bundles.edit', 2) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                             <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

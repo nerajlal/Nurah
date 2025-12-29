@@ -3,9 +3,9 @@
 @section('title', 'Products')
 
 @section('content')
-<div class="flex justify-between items-center mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
     <h1 class="text-xl font-semibold text-gray-800">Products</h1>
-    <a href="{{ route('admin.products.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm">Add product</a>
+    <a href="{{ route('admin.products.create') }}" class="bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800 transition-colors shadow-sm w-fit">Add product</a>
 </div>
 
 <div class="card bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -50,7 +50,10 @@
                     <td class="px-6 py-4">Perfume</td>
                     <td class="px-6 py-4">Nurah</td>
                     <td class="px-6 py-4 text-right">
-                        <button class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-pen"></i></button>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('admin.products.edit', 1) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                            <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
                  <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="window.location='{{ route('admin.products.edit', 2) }}'">
@@ -68,7 +71,10 @@
                     <td class="px-6 py-4">Gift Set</td>
                     <td class="px-6 py-4">Nurah</td>
                      <td class="px-6 py-4 text-right">
-                        <button class="text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"><i class="fas fa-pen"></i></button>
+                        <div class="flex justify-end gap-2" onclick="event.stopPropagation()">
+                            <a href="{{ route('admin.products.edit', 2) }}" class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-blue-600 transition-colors shadow-sm"><i class="fas fa-edit"></i></a>
+                            <button class="p-1.5 hover:bg-white rounded text-gray-400 hover:text-red-600 transition-colors shadow-sm"><i class="fas fa-trash"></i></button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

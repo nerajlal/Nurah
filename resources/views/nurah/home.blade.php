@@ -160,26 +160,26 @@
     <div class="hero-slider">
         <div class="slide active">
             <picture>
-                <source media="(max-width: 768px)" srcset="{{ asset('Images/bm1.webp') }}">
-                <img src="{{ asset('Images/bd1.webp') }}" alt="Buy 2 Get 1">
+                <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-1.webp') }}">
+                <img src="{{ asset('Images/hero-desktop-1.webp') }}" alt="Buy 2 Get 1">
             </picture>
         </div>
         <div class="slide">
             <picture>
-                <source media="(max-width: 768px)" srcset="{{ asset('Images/bm2.webp') }}">
-                <img src="{{ asset('Images/bd2.webp') }}" alt="New Store">
+                <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-2.webp') }}">
+                <img src="{{ asset('Images/hero-desktop-2.webp') }}" alt="New Store">
             </picture>
         </div>
         <div class="slide">
             <picture>
-                 <source media="(max-width: 768px)" srcset="{{ asset('Images/bm3.webp') }}">
-                <img src="{{ asset('Images/bd3.webp') }}" alt="Featured">
+                 <source media="(max-width: 768px)" srcset="{{ asset('Images/hero-mobile-3.webp') }}">
+                <img src="{{ asset('Images/hero-desktop-3.webp') }}" alt="Featured">
             </picture>
         </div>
         <div class="slide">
             <picture>
                 <source media="(max-width: 768px)" srcset="https://myop.in/cdn/shop/files/marshamallow_phone.webp?v=1753949875&width=1000">
-                <img src="{{ asset('Images/bd4.webp') }}" alt="Marshmallow">
+                <img src="{{ asset('Images/hero-desktop-4.webp') }}" alt="Marshmallow">
             </picture>
         </div>
         <div class="slider-dots">
@@ -199,7 +199,7 @@
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
                     <span class="product-badge">New</span>
-                    <img src="{{ asset('Images/g-sandal.webp') }}" alt="Sandal Veer" class="product-image">
+                    <img src="{{ asset('Images/product-sandal-veer.webp') }}" alt="Sandal Veer" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Sandal Veer</h3>
@@ -210,7 +210,7 @@
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
                     <span class="product-badge">New</span>
-                    <img src="{{ asset('Images/g-marshmallow.webp') }}" alt="Marshmallow Fluff" class="product-image">
+                    <img src="{{ asset('Images/product-marshmallow-fluff.webp') }}" alt="Marshmallow Fluff" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Marshmallow Fluff</h3>
@@ -220,7 +220,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-purple.webp') }}" alt="Purple Mystique" class="product-image">
+                    <img src="{{ asset('Images/product-purple-mystique.webp') }}" alt="Purple Mystique" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Purple Mystique</h3>
@@ -230,7 +230,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-banglore.webp') }}" alt="Bangalore Bloom" class="product-image">
+                    <img src="{{ asset('Images/product-bangalore-bloom.webp') }}" alt="Bangalore Bloom" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Bangalore Bloom</h3>
@@ -240,7 +240,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-fruit.webp') }}" alt="Fruit Punch" class="product-image">
+                    <img src="{{ asset('Images/product-fruit-punch.webp') }}" alt="Fruit Punch" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Fruit Punch</h3>
@@ -250,7 +250,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-one.webp') }}" alt="One of a Kind" class="product-image">
+                    <img src="{{ asset('Images/product-one-of-a-kind.webp') }}" alt="One of a Kind" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">One of a Kind</h3>
@@ -260,7 +260,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-jasmine.webp') }}" alt="Midnight Jasmine" class="product-image">
+                    <img src="{{ asset('Images/product-midnight-jasmine.webp') }}" alt="Midnight Jasmine" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Midnight Jasmine</h3>
@@ -270,7 +270,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-amber.webp') }}" alt="Amber Elixir" class="product-image">
+                    <img src="{{ asset('Images/product-amber-elixir.webp') }}" alt="Amber Elixir" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Amber Elixir</h3>
@@ -299,7 +299,7 @@
         </div>
         <div class="category-grid">
             <a href="/collections?category=fresh" class="category-card">
-                <img src="{{ asset('Images/g-fresh.png') }}" alt="Fresh">
+                <img src="{{ asset('Images/category-fresh.png') }}" alt="Fresh">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">FRESH</h3>
@@ -309,7 +309,7 @@
             </a>
 
             <a href="/collections?category=oriental-woody" class="category-card">
-                <img src="{{ asset('Images/g-woody.png') }}" alt="Oriental/Woody">
+                <img src="{{ asset('Images/category-oriental-woody.png') }}" alt="Oriental/Woody">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">ORIENTAL/WOODY</h3>
@@ -319,7 +319,7 @@
             </a>
 
             <a href="/collections?category=floral" class="category-card">
-                <img src="{{ asset('Images/g-forall.png') }}" alt="Floral">
+                <img src="{{ asset('Images/category-floral.png') }}" alt="Floral">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">FLORAL</h3>
@@ -339,7 +339,7 @@
         <div class="product-grid">
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-oud.webp') }}" alt="Oud De Beirut" class="product-image">
+                    <img src="{{ asset('Images/product-oud-de-beirut.webp') }}" alt="Oud De Beirut" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Oud De Beirut</h3>
@@ -349,7 +349,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-california.webp') }}" alt="California Sunshine" class="product-image">
+                    <img src="{{ asset('Images/product-california-sunshine.webp') }}" alt="California Sunshine" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">California Sunshine</h3>
@@ -359,7 +359,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-moroccan.webp') }}" alt="Moroccan Rose" class="product-image">
+                    <img src="{{ asset('Images/product-moroccan-rose.webp') }}" alt="Moroccan Rose" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Moroccan Rose</h3>
@@ -369,7 +369,7 @@
 
             <a href="{{ route('product') }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ asset('Images/g-perisian.webp') }}" alt="Parisian Night" class="product-image">
+                    <img src="{{ asset('Images/product-parisian-night.webp') }}" alt="Parisian Night" class="product-image">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">Parisian Night</h3>
@@ -397,21 +397,21 @@
         </div>
         <div class="gender-grid">
             <a href="/collections?gender=for-him" class="gender-card">
-                <img src="{{ asset('Images/g-men.webp') }}" alt="For Him">
+                <img src="{{ asset('Images/gender-him.webp') }}" alt="For Him">
                 <div class="gender-overlay">
                     <h3 class="gender-title">FOR HIM</h3>
                 </div>
             </a>
 
             <a href="/collections?gender=for-her" class="gender-card">
-                <img src="{{ asset('Images/g-women.webp') }}" alt="For Her">
+                <img src="{{ asset('Images/gender-her.webp') }}" alt="For Her">
                 <div class="gender-overlay">
                     <h3 class="gender-title">FOR HER</h3>
                 </div>
             </a>
 
             <a href="/collections?gender=unisex" class="gender-card">
-                <img src="{{ asset('Images/g-us.webp') }}" alt="Unisex">
+                <img src="{{ asset('Images/gender-unisex.webp') }}" alt="Unisex">
                 <div class="gender-overlay">
                     <h3 class="gender-title">UNISEX</h3>
                 </div>
@@ -465,7 +465,7 @@
     <!-- About -->
     <div class="about-section" id="about">
         <div class="about-image">
-            <img src="{{ asset('Images/g-shop.webp') }}" alt="MYOP Store">
+            <img src="{{ asset('Images/about-store.webp') }}" alt="MYOP Store">
         </div>
         <div>
             <h2 class="about-title"><em>Why We Do,</em> What We Do</h2>

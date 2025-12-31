@@ -904,21 +904,14 @@
             <div class="image-gallery">
                 <div class="main-image-container">
                     <span class="image-badge">Bestseller</span>
-                    <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" alt="Inglorious" class="main-image" id="mainImage">
-                    <div class="image-dots">
-                        <div class="image-dot active"></div>
-                        <div class="image-dot"></div>
-                        <div class="image-dot"></div>
-                        <div class="image-dot"></div>
-                        <div class="image-dot"></div>
-                    </div>
+                    <img src="{{ asset('Images/prod.webp') }}" alt="Inglorious" class="main-image" id="mainImage">
+                    
                 </div>
                 <div class="thumbnail-strip">
-                    <img src="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_2fe7f645-0169-4447-b197-1b3cad3f6ba5.webp?v=1752146385&width=1080" class="thumbnail active" onclick="changeImage(this, 0)" alt="View 1">
+                    <img src="{{ asset('Images/prod.webp') }}" data-full-img="{{ asset('Images/prod.webp') }}" class="thumbnail active" onclick="changeImage(this, 0)" alt="View 1">
                     <img src="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_notes.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 1)" alt="View 2">
                     <img src="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_sensation.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 2)" alt="View 3">
-                    <img src="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=416" data-full-img="https://myop.in/cdn/shop/files/bottle_options_for_website.webp?v=1764337765&width=1080" class="thumbnail" onclick="changeImage(this, 3)" alt="View 4">
-                    <img src="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=416" data-full-img="https://myop.in/cdn/shop/files/inglorious_79f92dac-1273-4a41-afc5-4954e0e5ff9e.webp?v=1759559980&width=1080" class="thumbnail" onclick="changeImage(this, 4)" alt="View 5">
+                    
                 </div>
             </div>
             
@@ -989,11 +982,6 @@
                     </div>
                 </div>
 
-                <!-- Personality -->
-                <div class="personality-section">
-                    <label class="option-label">Personality</label>
-                    <img src="https://myop.in/cdn/shop/files/Men_allday_personality.png?v=1715808037&width=1030" alt="Personality" class="personality-image">
-                </div>
 
                 <!-- Quantity -->
                 <div class="quantity-section">
@@ -1155,12 +1143,12 @@
 
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
-                            <span class="faq-q-text">Are MYOP perfumes long-lasting?</span>
+                            <span class="faq-q-text">Are Nurah Perfumes long-lasting?</span>
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
                             <div class="faq-answer-text">
-                                Yes, MYOP perfumes are seriously long-lasting! We source our perfume oils straight from Europe and reformulated each scent with 50% oil concentration — specially made to thrive in tropical weather.
+                                Yes, Nurah Perfumes are seriously long-lasting! We source our perfume oils straight from Europe and reformulated each scent with 50% oil concentration — specially made to thrive in tropical weather.
                             </div>
                         </div>
                     </div>
@@ -1176,59 +1164,112 @@
     <div class="related-products-section">
         <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">You May Also Like</h2>
         <div class="related-scroll-container">
-            <!-- Product 1 -->
-            <div class="product-card" onclick="window.location.href='/product/black-diamond'">
+            <!-- Product 1: Sandal Veer -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
                 <div class="product-image-wrapper">
                     <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
-                    <span class="product-badge">Hot</span>
-                    <img src="https://myop.in/cdn/shop/files/black_diamond_bottle.webp?v=1738927823&width=360" class="product-image" alt="Black Diamond">
+                    <span class="product-badge">New</span>
+                    <img src="{{ asset('Images/product-sandal-veer.webp') }}" class="product-image" alt="Sandal Veer">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Black Diamond</h3>
-                    <p class="product-price">₹899</p>
+                    <h3 class="product-name">Sandal Veer</h3>
+                    <p class="product-price">₹1,129</p>
                     <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
 
-            <!-- Product 2 -->
-            <div class="product-card" onclick="window.location.href='/product/oud-gold'">
+            <!-- Product 2: Marshmallow Fluff -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
                 <div class="product-image-wrapper">
                     <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
-                    <img src="https://myop.in/cdn/shop/files/oud_gold_bottle.webp?v=1738927823&width=360" class="product-image" alt="Oud Gold">
+                    <span class="product-badge">New</span>
+                    <img src="{{ asset('Images/product-marshmallow-fluff.webp') }}" class="product-image" alt="Marshmallow Fluff">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Oud Gold</h3>
-                    <p class="product-price">₹1,299</p>
+                    <h3 class="product-name">Marshmallow Fluff</h3>
+                    <p class="product-price">₹1,129</p>
                     <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
 
-            <!-- Product 3 -->
-            <div class="product-card" onclick="window.location.href='/product/rose-vanilla'">
+            <!-- Product 3: Purple Mystique -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
                 <div class="product-image-wrapper">
                     <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
-                    <img src="https://myop.in/cdn/shop/files/rose_vanilla_bottle.webp?v=1738927823&width=360" class="product-image" alt="Rose Vanilla">
+                    <img src="{{ asset('Images/product-purple-mystique.webp') }}" class="product-image" alt="Purple Mystique">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Rose Vanilla</h3>
-                    <p class="product-price">₹999</p>
+                    <h3 class="product-name">Purple Mystique</h3>
+                    <p class="product-price">₹1,129</p>
                     <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
 
-            <!-- Product 4 -->
-            <div class="product-card" onclick="window.location.href='/product/musk-intense'">
+            <!-- Product 4: Bangalore Bloom -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
                 <div class="product-image-wrapper">
                     <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
-                    <img src="https://myop.in/cdn/shop/files/musk_intense_bottle.webp?v=1738927823&width=360" class="product-image" alt="Musk Intense">
+                    <img src="{{ asset('Images/product-bangalore-bloom.webp') }}" class="product-image" alt="Bangalore Bloom">
                 </div>
                 <div class="product-info">
-                    <h3 class="product-name">Musk Intense</h3>
-                    <p class="product-price">₹1,099</p>
+                    <h3 class="product-name">Bangalore Bloom</h3>
+                    <p class="product-price">₹1,129</p>
                     <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
-        </div>
+
+            <!-- Product 5: Fruit Punch -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="{{ asset('Images/product-fruit-punch.webp') }}" class="product-image" alt="Fruit Punch">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Fruit Punch</h3>
+                    <p class="product-price">₹1,129</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 6: One of a Kind -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="{{ asset('Images/product-one-of-a-kind.webp') }}" class="product-image" alt="One of a Kind">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">One of a Kind</h3>
+                    <p class="product-price">₹1,129</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 7: Midnight Jasmine -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="{{ asset('Images/product-midnight-jasmine.webp') }}" class="product-image" alt="Midnight Jasmine">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Midnight Jasmine</h3>
+                    <p class="product-price">₹1,129</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 8: Amber Elixir -->
+            <div class="product-card" onclick="window.location.href='{{ route('product') }}'">
+                <div class="product-image-wrapper">
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    <img src="{{ asset('Images/product-amber-elixir.webp') }}" class="product-image" alt="Amber Elixir">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Amber Elixir</h3>
+                    <p class="product-price">₹1,129</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
+                </div>
+            </div>
+
     </div>
 
     <!-- Footer Spacer -->
@@ -1372,7 +1413,7 @@
 
     window.share = function(platform) {
         const url = window.location.href;
-        const text = 'Check out Inglorious perfume from MYOP!';
+        const text = 'Check out Inglorious perfume from Nurah Perfumes!';
 
         switch(platform) {
             case 'facebook':

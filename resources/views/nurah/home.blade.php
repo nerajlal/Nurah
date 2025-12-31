@@ -299,7 +299,7 @@
         </div>
         <div class="category-grid">
             <a href="/collections?category=fresh" class="category-card">
-                <img src="{{ asset('Images/category-fresh.png') }}" alt="Fresh">
+                <img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">FRESH</h3>
@@ -309,7 +309,7 @@
             </a>
 
             <a href="/collections?category=oriental-woody" class="category-card">
-                <img src="{{ asset('Images/category-oriental-woody.png') }}" alt="Oriental/Woody">
+                <img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental/Woody">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">ORIENTAL/WOODY</h3>
@@ -319,7 +319,7 @@
             </a>
 
             <a href="/collections?category=floral" class="category-card">
-                <img src="{{ asset('Images/category-floral.png') }}" alt="Floral">
+                <img src="{{ asset('Images/category-floral.webp') }}" alt="Floral">
                 <div class="category-overlay">
                     <div>
                         <h3 class="category-name">FLORAL</h3>

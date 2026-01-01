@@ -41,6 +41,11 @@
         .header-icons { display: flex; gap: 15px; align-items: center; }
         .icon-btn { background: none; border: none; font-size: 20px; cursor: pointer; position: relative; }
         .cart-count { position: absolute; top: -5px; right: -8px; background: var(--gold); color: var(--white); width: 16px; height: 16px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        
+        @media (min-width: 900px) {
+            .header-icons { gap: 30px; }
+            .icon-btn { font-size: 22px; }
+        }
 
         /* Mobile Menu */
         .mobile-menu { position: fixed; top: 0; left: -100%; width: 85%; max-width: 320px; height: 100vh; background: var(--white); z-index: 2000; transition: left 0.3s ease; overflow-y: auto; box-shadow: 2px 0 20px rgba(0,0,0,0.1); }

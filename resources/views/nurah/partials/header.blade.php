@@ -10,10 +10,11 @@
         <a href="{{ route('home') }}" class="logo">Nurah Perfumes</a>
         <div class="header-icons">
             <button class="icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
-            <button class="icon-btn">
+            <a href="#" class="icon-btn" style="color: inherit;"><i class="fas fa-user"></i></a>
+            <a href="{{ route('cart') }}" class="icon-btn" style="color: inherit;">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
-            </button>
+            </a>
         </div>
     </div>
     <div class="header-search-inline" id="inlineSearch">

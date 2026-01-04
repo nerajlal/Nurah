@@ -82,6 +82,12 @@
                 </a>
             </li>
             <li>
+                 <a href="{{ route('admin.settings.home-products') }}" class="sidebar-item {{ request()->routeIs('admin.settings.home-products*') ? 'active' : '' }} d-flex align-items-center gap-3 px-3 py-2 rounded text-decoration-none text-secondary small">
+                    <i class="fas fa-star text-center" style="width: 20px;"></i>
+                    <span>Home Products</span>
+                </a>
+            </li>
+            <li>
                  <a href="{{ route('admin.settings.managers') }}" class="sidebar-item {{ request()->routeIs('admin.settings.managers*') ? 'active' : '' }} d-flex align-items-center gap-3 px-3 py-2 rounded text-decoration-none text-secondary small">
                     <i class="fas fa-users-cog text-center" style="width: 20px;"></i>
                     <span>Site Managers</span>

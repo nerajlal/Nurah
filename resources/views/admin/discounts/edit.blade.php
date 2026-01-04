@@ -263,6 +263,9 @@
         });
 
         function addProduct(id, title, imagePath) {
+            // Clear existing selections for single product mode
+            selectedContainer.innerHTML = '';
+            hiddenInputs.innerHTML = '';
             selectedContainer.classList.remove('d-none');
             
             const div = document.createElement('div');

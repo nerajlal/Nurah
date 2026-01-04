@@ -24,6 +24,31 @@ class Discount extends Model
         'ends_at' => 'datetime',
     ];
 
+    /**
+     * Get the computed status based on dates.
+     *
+     * @return string
+     */
+    public function getComputedStatusAttribute()
+    {
+        if ($this->status !== 'active') {
+            return $this->status;
+        }
+
+        $now = now();
+
+        if ($this->starts_at > $now) {
+            return 'scheduled';
+        }
+
+        if ($this->ends_at && $this->ends_at < $now) {
+            return 'expired';
+        }
+
+        return 'active';
+    }
+
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'discount_product');

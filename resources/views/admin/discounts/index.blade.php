@@ -11,28 +11,36 @@
 <!-- Stats -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-        <div class="card border shadow-sm p-3 text-center">
-            <div class="h3 fw-bold text-dark mb-0">2</div>
-            <div class="small text-muted text-uppercase tracking-wide mt-1">Total</div>
-        </div>
+        <a href="{{ route('admin.discounts') }}" class="text-decoration-none">
+            <div class="card border shadow-sm p-3 text-center h-100 {{ !request('status') ? 'border-primary bg-primary bg-opacity-10' : '' }}">
+                <div class="h3 fw-bold text-dark mb-0">{{ $total }}</div>
+                <div class="small text-muted text-uppercase tracking-wide mt-1">Total</div>
+            </div>
+        </a>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card border shadow-sm p-3 text-center">
-            <div class="h3 fw-bold text-success mb-0">2</div>
-            <div class="small text-muted text-uppercase tracking-wide mt-1">Active</div>
-        </div>
+        <a href="{{ route('admin.discounts', ['status' => 'active']) }}" class="text-decoration-none">
+            <div class="card border shadow-sm p-3 text-center h-100 {{ request('status') == 'active' ? 'border-success bg-success bg-opacity-10' : '' }}">
+                <div class="h3 fw-bold text-success mb-0">{{ $active }}</div>
+                <div class="small text-muted text-uppercase tracking-wide mt-1">Active</div>
+            </div>
+        </a>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card border shadow-sm p-3 text-center">
-            <div class="h3 fw-bold text-secondary opacity-50 mb-0">0</div>
-            <div class="small text-muted text-uppercase tracking-wide mt-1">Expired</div>
-        </div>
+        <a href="{{ route('admin.discounts', ['status' => 'expired']) }}" class="text-decoration-none">
+            <div class="card border shadow-sm p-3 text-center h-100 {{ request('status') == 'expired' ? 'border-secondary bg-secondary bg-opacity-10' : '' }}">
+                <div class="h3 fw-bold text-secondary opacity-50 mb-0">{{ $expired }}</div>
+                <div class="small text-muted text-uppercase tracking-wide mt-1">Expired</div>
+            </div>
+        </a>
     </div>
     <div class="col-6 col-md-3">
-        <div class="card border shadow-sm p-3 text-center">
-            <div class="h3 fw-bold text-secondary opacity-50 mb-0">0</div>
-            <div class="small text-muted text-uppercase tracking-wide mt-1">Inactive</div>
-        </div>
+        <a href="{{ route('admin.discounts', ['status' => 'inactive']) }}" class="text-decoration-none">
+            <div class="card border shadow-sm p-3 text-center h-100 {{ request('status') == 'inactive' ? 'border-secondary bg-secondary bg-opacity-10' : '' }}">
+                <div class="h3 fw-bold text-secondary opacity-50 mb-0">{{ $inactive }}</div>
+                <div class="small text-muted text-uppercase tracking-wide mt-1">Inactive</div>
+            </div>
+        </a>
     </div>
 </div>
 
@@ -40,17 +48,43 @@
     <!-- Toolbar -->
     <div class="card-header bg-light border-bottom p-3 d-flex gap-3">
         <div class="flex-grow-1">
-             <div class="input-group input-group-sm">
-                 <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
-                 <input type="text" placeholder="Search discounts" class="form-control border-start-0 shadow-none">
-             </div>
+             <form action="{{ route('admin.discounts') }}" method="GET">
+                 <!-- Preserve other filters -->
+                 @foreach(request()->except(['search', 'page']) as $key => $value)
+                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                 @endforeach
+                 <div class="input-group input-group-sm">
+                     <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search discounts" class="form-control border-start-0 shadow-none">
+                 </div>
+             </form>
         </div>
-        <button class="btn btn-white border btn-sm shadow-sm text-secondary">
-            <i class="fas fa-filter me-2"></i> Filter
-        </button>
-        <button class="btn btn-white border btn-sm shadow-sm text-secondary">
-            <i class="fas fa-sort me-2"></i> Sort
-        </button>
+        
+        <!-- Filter Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-white border btn-sm shadow-sm text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-filter me-2"></i> {{ request('type') ? ucfirst(request('type')) : 'All Types' }}
+            </button>
+            <ul class="dropdown-menu shadow-sm border-0">
+                <li><a class="dropdown-item small {{ !request('type') ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['type' => null, 'page' => 1])) }}">All Types</a></li>
+                <li><a class="dropdown-item small {{ request('type') == 'percentage' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['type' => 'percentage', 'page' => 1])) }}">Percentage</a></li>
+                <li><a class="dropdown-item small {{ request('type') == 'fixed' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['type' => 'fixed', 'page' => 1])) }}">Fixed Amount</a></li>
+            </ul>
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-white border btn-sm shadow-sm text-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <i class="fas fa-sort me-2"></i> Sort
+            </button>
+            <ul class="dropdown-menu shadow-sm border-0 dropdown-menu-end">
+                <li><a class="dropdown-item small {{ !request('sort') || request('sort') == 'newest' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['sort' => 'newest', 'page' => 1])) }}">Newest First</a></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'oldest' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['sort' => 'oldest', 'page' => 1])) }}">Oldest First</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'code_asc' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['sort' => 'code_asc', 'page' => 1])) }}">Code (A-Z)</a></li>
+                <li><a class="dropdown-item small {{ request('sort') == 'code_desc' ? 'active bg-light text-dark fw-bold' : '' }}" href="{{ route('admin.discounts', array_merge(request()->query(), ['sort' => 'code_desc', 'page' => 1])) }}">Code (Z-A)</a></li>
+            </ul>
+        </div>
     </div>
 
     <!-- Table -->
@@ -87,8 +121,19 @@
                         </div>
                     </td>
                     <td class="px-3 py-3">
-                        <span class="badge {{ $discount->status == 'active' ? 'bg-success bg-opacity-10 text-success' : 'bg-secondary bg-opacity-10 text-secondary' }} rounded-pill px-2 py-1 fw-medium">
-                            {{ ucfirst($discount->status) }}
+                        @php
+                            $status = $discount->computed_status;
+                            $badgeClass = match($status) {
+                                'active' => 'bg-success bg-opacity-10 text-success',
+                                'scheduled' => 'bg-info bg-opacity-10 text-info',
+                                'expired' => 'bg-secondary bg-opacity-10 text-secondary',
+                                'draft' => 'bg-warning bg-opacity-10 text-warning',
+                                'archived' => 'bg-light text-muted border',
+                                default => 'bg-secondary bg-opacity-10 text-secondary'
+                            };
+                        @endphp
+                        <span class="badge {{ $badgeClass }} rounded-pill px-2 py-1 fw-medium">
+                            {{ ucfirst($status) }}
                         </span>
                     </td>
                     <td class="px-3 py-3 text-dark">
@@ -123,7 +168,7 @@
             </tbody>
         </table>
         <div class="px-3 py-3">
-            {{ $discounts->links() }}
+            {{ $discounts->appends(request()->query())->links() }}
         </div>
     </div>
 </div>

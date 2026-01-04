@@ -10,10 +10,73 @@ use Illuminate\Support\Str;
 
 class DiscountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $discounts = Discount::latest()->paginate(10);
-        return view('admin.discounts.index', compact('discounts'));
+        $query = Discount::query();
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where('code', 'LIKE', '%' . $request->search . '%');
+        }
+
+        // Status Filter
+        if ($request->filled('status')) {
+            switch ($request->status) {
+                case 'active':
+                    $query->where('status', 'active')
+                          ->where('starts_at', '<=', now())
+                          ->where(function($q) {
+                              $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+                          });
+                    break;
+                case 'expired':
+                     $query->where('status', 'active')
+                           ->whereNotNull('ends_at')
+                           ->where('ends_at', '<', now());
+                    break;
+                case 'inactive':
+                    $query->where('status', '!=', 'active');
+                    break;
+            }
+        }
+
+        // Type Filter
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // Sorting
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'oldest':
+                    $query->oldest();
+                    break;
+                case 'code_asc':
+                    $query->orderBy('code', 'asc');
+                    break;
+                case 'code_desc':
+                    $query->orderBy('code', 'desc');
+                    break;
+                default:
+                    $query->latest();
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+
+        $discounts = $query->paginate(10);
+        
+        $total = Discount::count();
+        $active = Discount::where('status', 'active')
+            ->where('starts_at', '<=', now())
+            ->where(function($q) {
+                $q->whereNull('ends_at')->orWhere('ends_at', '>=', now());
+            })->count();
+        $expired = Discount::where('status', 'active')->whereNotNull('ends_at')->where('ends_at', '<', now())->count();
+        $inactive = Discount::where('status', '!=', 'active')->count();
+        
+        return view('admin.discounts.index', compact('discounts', 'total', 'active', 'expired', 'inactive'));
     }
 
     public function create()

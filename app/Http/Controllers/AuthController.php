@@ -66,4 +66,57 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    public function redirectToGoogle()
+    {
+        return \Laravel\Socialite\Facades\Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            \Illuminate\Support\Facades\Log::info('Google Callback Started');
+            
+            // Bypass SSL verification for local development (cURL error 77 fix)
+            $driver = \Laravel\Socialite\Facades\Socialite::driver('google');
+            $driver->setHttpClient(new \GuzzleHttp\Client(['verify' => false]));
+            $googleUser = $driver->user();
+            
+            \Illuminate\Support\Facades\Log::info('Google User retrieved', ['email' => $googleUser->getEmail(), 'id' => $googleUser->getId()]);
+        
+            $user = User::where('google_id', $googleUser->getId())->first();
+        
+            if (!$user) {
+                \Illuminate\Support\Facades\Log::info('User by Google ID not found. Checking by Email.');
+                
+                // Check if user exists with same email, link account if so
+                $user = User::where('email', $googleUser->getEmail())->first();
+        
+                if ($user) {
+                    \Illuminate\Support\Facades\Log::info('User found by email. Updating Google ID.');
+                    $user->update(['google_id' => $googleUser->getId()]);
+                } else {
+                    \Illuminate\Support\Facades\Log::info('Creating new user.');
+                    $user = User::create([
+                        'name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'google_id' => $googleUser->getId(),
+                        'password' => Hash::make(\Illuminate\Support\Str::random(16)), // Random password
+                        'email_verified_at' => now(), // Auto-verify Google users
+                    ]);
+                    \Illuminate\Support\Facades\Log::info('New user created.');
+                }
+            }
+        
+            Auth::login($user);
+            \Illuminate\Support\Facades\Log::info('User logged in.');
+        
+            return redirect()->route('home')->with('success', 'Logged in with Google successfully!');
+        
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Google Login Error: ' . $e->getMessage());
+            \Illuminate\Support\Facades\Log::error($e->getTraceAsString());
+            return redirect()->route('home')->with('error', 'Google Login failed: ' . $e->getMessage());
+        }
+    }
 }

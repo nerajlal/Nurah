@@ -79,7 +79,7 @@
         </form>
         
         <div class="divider"><span>OR</span></div>
-        <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+        <a href="{{ route('google.login') }}" class="google-btn" style="text-decoration: none;"><i class="fab fa-google"></i> Continue with Google</a>
         
         <div class="login-footer">
             <a href="#" class="forgot-link">Forgot Password?</a>
@@ -143,7 +143,7 @@
         </form>
         
         <div class="divider"><span>OR</span></div>
-        <button class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
+        <a href="{{ route('google.login') }}" class="google-btn" style="text-decoration: none;"><i class="fab fa-google"></i> Continue with Google</a>
         
         <div class="login-footer">
             <p class="signup-text">Already have an account? <a href="javascript:void(0)" onclick="openLogin()">Sign in</a></p>

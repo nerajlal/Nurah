@@ -18,6 +18,9 @@ Route::view('/checkout', 'nurah.checkout')->name('checkout');
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+// Google Auth
+Route::get('auth/google', [App\Http\Controllers\AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [App\Http\Controllers\AuthController::class, 'handleGoogleCallback']);
 
 // Protected User Routes
 Route::middleware('auth')->group(function () {

@@ -101,16 +101,18 @@
 
 <style>
     .nav-tabs .nav-link {
-        border-bottom: 2px solid transparent;
+        border: none !important;
+        border-bottom: 2px solid transparent !important;
         margin-bottom: -1px;
     }
     .nav-tabs .nav-link.active {
         color: #202223 !important;
         background-color: transparent !important;
         border-bottom-color: #008060 !important;
+        font-weight: 600;
     }
     .nav-tabs .nav-link:not(.active):hover {
-        border-color: transparent;
+        border-bottom-color: transparent !important;
         color: #008060 !important;
     }
     .hover-text-success:hover {

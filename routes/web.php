@@ -56,11 +56,12 @@ Route::post('/admin/attributes', [App\Http\Controllers\Admin\AttributeController
 Route::put('/admin/attributes/{id}', [App\Http\Controllers\Admin\AttributeController::class, 'update'])->name('admin.attributes.update');
 Route::delete('/admin/attributes/{id}', [App\Http\Controllers\Admin\AttributeController::class, 'destroy'])->name('admin.attributes.destroy');
 
-Route::view('/admin/products', 'admin.products')->name('admin.products');
-Route::view('/admin/products/create', 'admin.products.create')->name('admin.products.create');
-Route::get('/admin/products/{id}/edit', function ($id) {
-    return view('admin.products.edit', ['id' => $id]);
-})->name('admin.products.edit');
+Route::get('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.products');
+Route::get('/admin/products/create', [App\Http\Controllers\Admin\ProductController::class, 'create'])->name('admin.products.create');
+Route::post('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'store'])->name('admin.products.store');
+Route::get('/admin/products/{id}/edit', [App\Http\Controllers\Admin\ProductController::class, 'edit'])->name('admin.products.edit');
+Route::put('/admin/products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'update'])->name('admin.products.update');
+Route::delete('/admin/products/{id}', [App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('admin.products.destroy');
 
 Route::view('/admin/reviews', 'admin.reviews.index')->name('admin.reviews');
 

@@ -103,6 +103,7 @@
                     draggable.classList.remove('dragging');
                     draggable.classList.remove('bg-light');
                     draggable.style.opacity = '1';
+                    saveOrder();
                 });
             });
         }
@@ -132,6 +133,26 @@
                     return closest;
                 }
             }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function saveOrder() {
+            const items = container.querySelectorAll('.draggable-item');
+            const order = Array.from(items).map(item => item.getAttribute('data-id'));
+
+            fetch('{{ route("admin.settings.slider.reorder") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ order: order })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Optional: Show toast or feedback
+                }
+            });
         }
     });
 </script>

@@ -943,6 +943,12 @@
                 </div>
                 @endif
 
+                @if(isset($bundle))
+                <div class="promo-banner" style="background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%); margin-top: 10px;">
+                    Combo Offer: Buy as combo and save {{ $bundle->discount_type == 'percentage' ? number_format($bundle->discount_value) . '%' : '₹' . number_format($bundle->discount_value) }} !
+                </div>
+                @endif
+
                 <!-- Size Selection -->
                 <div class="option-section">
                     <label class="option-label">Select Size</label>

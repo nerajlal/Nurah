@@ -196,7 +196,12 @@ class PageController extends Controller
             })
             ->orderByDesc('value')
             ->first();
+
+        // Fetch active bundle (if any)
+        $bundle = $product->bundles()
+            ->where('status', 'active')
+            ->first();
             
-        return view('nurah.product-main', compact('product', 'relatedProducts', 'coupon'));
+        return view('nurah.product-main', compact('product', 'relatedProducts', 'coupon', 'bundle'));
     }
 }

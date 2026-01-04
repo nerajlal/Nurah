@@ -51,6 +51,11 @@ Route::get('/admin/bundles/{id}/edit', function ($id) {
     return view('admin.bundles.edit', ['id' => $id]);
 })->name('admin.bundles.edit');
 
+Route::get('/admin/attributes', [App\Http\Controllers\Admin\AttributeController::class, 'index'])->name('admin.attributes');
+Route::post('/admin/attributes', [App\Http\Controllers\Admin\AttributeController::class, 'store'])->name('admin.attributes.store');
+Route::put('/admin/attributes/{id}', [App\Http\Controllers\Admin\AttributeController::class, 'update'])->name('admin.attributes.update');
+Route::delete('/admin/attributes/{id}', [App\Http\Controllers\Admin\AttributeController::class, 'destroy'])->name('admin.attributes.destroy');
+
 Route::view('/admin/products', 'admin.products')->name('admin.products');
 Route::view('/admin/products/create', 'admin.products.create')->name('admin.products.create');
 Route::get('/admin/products/{id}/edit', function ($id) {
@@ -64,7 +69,7 @@ Route::view('/admin/blog/create', 'admin.blog.create')->name('admin.blog.create'
 Route::get('/admin/blog/{id}/edit', function ($id) {
     return view('admin.blog.edit', ['id' => $id]);
 })->name('admin.blog.edit');
-Route::view('/admin/attributes', 'admin.attributes.index')->name('admin.attributes');
+
 
 Route::view('/admin/customers', 'admin.customers')->name('admin.customers');
 Route::view('/admin/customers/create', 'admin.customers.create')->name('admin.customers.create');

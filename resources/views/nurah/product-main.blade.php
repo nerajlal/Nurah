@@ -927,7 +927,12 @@
             <div class="product-info">
                 <div class="product-header">
                     <h1 class="product-name">{{ $product->title }}</h1>
-                    <div class="product-price" id="productPrice">₹{{ number_format($product->starting_price, 0) }}</div>
+                    <div class="product-price" id="productPrice">
+                        @if(isset($product->compare_at_price) && $product->compare_at_price > $product->starting_price)
+                            <span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 8px;">₹{{ number_format($product->compare_at_price, 0) }}</span>
+                        @endif
+                        <span class="current-price">₹{{ number_format($product->starting_price, 0) }}</span>
+                    </div>
 
                 </div>
 
@@ -943,6 +948,7 @@
                         @foreach($product->variants as $index => $variant)
                         <div class="size-option {{ $index === 0 ? 'active' : '' }}" 
                              data-price="{{ $variant->price }}" 
+                             data-compare-at-price="{{ $variant->compare_at_price ?? '' }}"
                              onclick="selectSize(this)">
                             <span class="size-label">{{ $variant->size }}</span>
                             <span class="size-price">₹{{ number_format($variant->price, 0) }}</span>
@@ -1175,6 +1181,7 @@
     let currentImageIndex = 0;
     let quantity = 1;
     let currentPrice = {{ $product->starting_price }};
+    let currentCompareAtPrice = {{ $product->compare_at_price ?? 0 }};
 
     // Helper: Update Price Display
     function updatePrice() {
@@ -1183,7 +1190,13 @@
         const cartPriceEl = document.getElementById('cartPrice');
         
         if (productPriceEl) {
-            productPriceEl.textContent = `Rs. ${currentPrice.toLocaleString()}.00`;
+            let priceHtml = '';
+            if (currentCompareAtPrice > currentPrice) {
+                priceHtml += `<span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 8px;">Rs. ${currentCompareAtPrice.toLocaleString()}.00</span>`;
+            }
+            priceHtml += `<span class="current-price">Rs. ${currentPrice.toLocaleString()}.00</span>`;
+            
+            productPriceEl.innerHTML = priceHtml;
         }
         if (cartPriceEl) {
             cartPriceEl.textContent = `₹${total.toLocaleString()}`;
@@ -1223,7 +1236,11 @@
         element.classList.add('active');
 
         const price = element.getAttribute('data-price');
+        const compareAt = element.getAttribute('data-compare-at-price');
+        
         currentPrice = parseInt(price);
+        currentCompareAtPrice = compareAt ? parseInt(compareAt) : 0;
+        
         updatePrice();
     };
 

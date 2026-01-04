@@ -14,10 +14,67 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['variants', 'images'])->latest()->paginate(10);
-        return view('admin.products', compact('products'));
+        $query = Product::with(['variants', 'images']);
+
+        // Search
+        if ($request->filled('search')) {
+            $query->where('title', 'LIKE', '%' . $request->search . '%');
+        }
+
+        // Status Filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Type Filter
+        if ($request->filled('type')) {
+             $query->where('type', $request->type);
+        }
+
+        // Vendor Filter
+        if ($request->filled('vendor')) {
+             $query->where('vendor', $request->vendor);
+        }
+
+        // Sorting
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'oldest':
+                    $query->oldest();
+                    break;
+                case 'title_asc':
+                    $query->orderBy('title', 'asc');
+                    break;
+                case 'title_desc':
+                    $query->orderBy('title', 'desc');
+                    break;
+                default:
+                    $query->latest();
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+
+        $products = $query->paginate(10);
+
+        if ($request->ajax()) {
+            return view('admin.products.partials.table', compact('products'))->render();
+        }
+        
+        // Stats
+        $total = Product::count();
+        $active = Product::where('status', 'active')->count();
+        $draft = Product::where('status', 'draft')->count();
+        $archived = Product::where('status', 'archived')->count();
+
+        // Unique Types and Vendors for Filters
+        $types = Product::distinct()->whereNotNull('type')->pluck('type');
+        $vendors = Product::distinct()->whereNotNull('vendor')->pluck('vendor');
+
+        return view('admin.products.index', compact('products', 'total', 'active', 'draft', 'archived', 'types', 'vendors'));
     }
 
     public function create()

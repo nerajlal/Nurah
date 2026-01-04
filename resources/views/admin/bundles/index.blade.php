@@ -28,7 +28,11 @@
                     <td class="px-3 py-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
-                                <i class="fas fa-cubes text-secondary opacity-50"></i>
+                                @if($bundle->image)
+                                    <img src="{{ Storage::url($bundle->image) }}" class="w-100 h-100 object-fit-cover" alt="{{ $bundle->title }}">
+                                @else
+                                    <i class="fas fa-cubes text-secondary opacity-50"></i>
+                                @endif
                             </div>
                             <span class="fw-medium text-dark text-decoration-hover-underline">{{ $bundle->title }}</span>
                         </div>

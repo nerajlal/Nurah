@@ -11,7 +11,7 @@
         <h1 class="h3 mb-0 text-dark">Create bundle</h1>
     </div>
 
-    <form action="{{ route('admin.bundles.store') }}" method="POST">
+    <form action="{{ route('admin.bundles.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         
          <div class="row g-4">
@@ -27,6 +27,10 @@
                          <div>
                             <label class="form-label fw-medium text-secondary small">Description</label>
                             <textarea name="description" rows="4" class="form-control"></textarea>
+                        </div>
+                         <div>
+                            <label class="form-label fw-medium text-secondary small">Image (WebP only)</label>
+                            <input type="file" name="image" class="form-control" accept="image/webp">
                         </div>
                      </div>
                 </div>

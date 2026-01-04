@@ -13,6 +13,7 @@ class Bundle extends Model
         'title',
         'slug',
         'description',
+        'image',
         'status',
         'discount_type',
         'discount_value',

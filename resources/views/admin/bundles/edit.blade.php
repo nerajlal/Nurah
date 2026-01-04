@@ -11,7 +11,7 @@
         <h1 class="h3 mb-0 text-dark">Edit bundle</h1>
     </div>
 
-    <form action="{{ route('admin.bundles.update', $bundle->id) }}" method="POST">
+    <form action="{{ route('admin.bundles.update', $bundle->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
@@ -28,6 +28,15 @@
                          <div>
                             <label class="form-label fw-medium text-secondary small">Description</label>
                             <textarea name="description" rows="4" class="form-control">{{ $bundle->description }}</textarea>
+                        </div>
+                        <div>
+                            <label class="form-label fw-medium text-secondary small">Image (WebP only)</label>
+                            @if($bundle->image)
+                                <div class="mb-2">
+                                    <img src="{{ Storage::url($bundle->image) }}" class="rounded border" style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                            @endif
+                            <input type="file" name="image" class="form-control" accept="image/webp">
                         </div>
                      </div>
                 </div>
@@ -48,7 +57,7 @@
                         
                         <div id="selected_products_container" class="border rounded {{ $bundle->products->isEmpty() ? 'd-none' : '' }}">
                             @foreach($bundle->products as $product)
-                            <div class="p-3 d-flex align-items-center gap-3 border-bottom last-border-none">
+                            <div class="p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item" data-price="{{ $product->variants->min('price') ?? 0 }}">
                                 <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
                                     @if($product->images->first())
                                         <img src="{{ Storage::url($product->images->first()->path) }}" class="w-100 h-100 object-fit-cover">
@@ -145,6 +154,16 @@
         
         const allProducts = @json($productData);
 
+        const discountTypeSelect = document.querySelector('select[name="discount_type"]');
+        const discountValueInput = document.querySelector('input[name="discount_value"]');
+
+        // Add event listeners for discount changes
+        discountTypeSelect.addEventListener('change', updateSummary);
+        discountValueInput.addEventListener('input', updateSummary);
+        
+        // Initial Calculation
+        document.addEventListener('DOMContentLoaded', updateSummary);
+
         const searchInput = document.getElementById('product_search');
         const resultsContainer = document.getElementById('search_results');
 
@@ -210,7 +229,8 @@
             
             // Add UI
             const div = document.createElement('div');
-            div.className = 'p-3 d-flex align-items-center gap-3 border-bottom last-border-none';
+            div.className = 'p-3 d-flex align-items-center gap-3 border-bottom last-border-none product-item';
+            div.dataset.price = price;
             div.innerHTML = `
                 <div class="d-flex align-items-center justify-content-center bg-light border rounded overflow-hidden" style="width: 40px; height: 40px;">
                     ${imagePath ? `<img src="/storage/${imagePath}" class="w-100 h-100 object-fit-cover">` : `<i class="fas fa-image text-secondary opacity-50"></i>`}
@@ -243,8 +263,34 @@
         }
 
         function updateSummary() {
-            const count = document.getElementById('hidden_inputs').children.length;
+            const container = document.getElementById('selected_products_container');
+            const products = container.querySelectorAll('.product-item');
+            const count = products.length;
             document.getElementById('summary_count').innerText = count;
+
+            // Calculate total price
+            let total = 0;
+            products.forEach(p => {
+                total += parseFloat(p.dataset.price) || 0;
+            });
+
+            // Calculate discount
+            const discountType = discountTypeSelect.value;
+            const discountValue = parseFloat(discountValueInput.value) || 0;
+            let finalPrice = total;
+
+            if (discountValue > 0) {
+                if (discountType === 'percentage') {
+                    finalPrice = total - (total * (discountValue / 100));
+                } else {
+                    finalPrice = total - discountValue;
+                }
+            }
+
+            // Ensure non-negative
+            finalPrice = Math.max(0, finalPrice);
+
+            document.getElementById('summary_total').innerText = '₹ ' + finalPrice.toFixed(2);
         }
     </script>
 </div>

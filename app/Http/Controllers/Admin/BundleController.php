@@ -30,6 +30,7 @@ class BundleController extends Controller
             'discount_value' => 'required|numeric|min:0',
             'products' => 'required|array|min:1',
             'products.*' => 'exists:products,id',
+            'image' => 'nullable|image|mimes:webp',
         ]);
 
         $slug = Str::slug($request->title);
@@ -39,10 +40,16 @@ class BundleController extends Controller
             $slug .= '-' . ($count + 1);
         }
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('bundles', 'public');
+        }
+
         $bundle = Bundle::create([
             'title' => $request->title,
             'slug' => $slug,
             'description' => $request->description,
+            'image' => $imagePath,
             'status' => $request->status ?? 'draft',
             'discount_type' => $request->discount_type,
             'discount_value' => $request->discount_value,
@@ -68,6 +75,7 @@ class BundleController extends Controller
             'discount_value' => 'required|numeric|min:0',
             'products' => 'required|array|min:1',
             'products.*' => 'exists:products,id',
+            'image' => 'nullable|image|mimes:webp',
         ]);
 
         $bundle = Bundle::findOrFail($id);
@@ -82,14 +90,20 @@ class BundleController extends Controller
             $slug = $bundle->slug;
         }
 
-        $bundle->update([
+        $data = [
             'title' => $request->title,
             'slug' => $slug,
             'description' => $request->description,
             'status' => $request->status ?? 'draft',
             'discount_type' => $request->discount_type,
             'discount_value' => $request->discount_value,
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('bundles', 'public');
+        }
+
+        $bundle->update($data);
 
         $bundle->products()->sync($request->products);
 

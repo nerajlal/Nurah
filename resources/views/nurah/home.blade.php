@@ -254,7 +254,7 @@
     <!-- Our Fragrances -->
     <section class="section" id="signature">
         <div class="section-header">
-            <h2 class="section-title">Our <em>Fragrances</em></h2>
+            <h2 class="section-title">Our <em>Collections</em></h2>
         </div>
         <div class="category-grid">
             <a href="/collections?category=fresh" class="category-card">

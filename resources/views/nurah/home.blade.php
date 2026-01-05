@@ -101,13 +101,89 @@
     .video-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; }
     .video-text { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--white); font-weight: 700; text-align: center; padding: 20px; line-height: 1.2; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-    /* Gender Grid */
-    .gender-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .gender-card { position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; display: block; text-decoration: none; color: inherit; }
-    .gender-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; transition: transform 0.5s; }
-    .gender-card:hover img { transform: scale(1.05); }
-    .gender-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%); padding: 30px 10px 15px; text-align: center; }
-    .gender-title { color: var(--white); font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+    /* Gender Carousel */
+    .gender-carousel-container {
+        position: relative;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .gender-carousel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .gender-card {
+        position: absolute;
+        width: 300px;
+        height: 400px;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .gender-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .gender-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+        padding: 40px 20px 20px;
+        text-align: center;
+    }
+
+    .gender-title {
+        color: var(--white);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    /* States */
+    .gender-card.active {
+        transform: translate(0, 0) scale(1.1);
+        z-index: 10;
+        opacity: 1;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .gender-card.prev {
+        transform: translate(-120%, 0) scale(0.85);
+        z-index: 5;
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+    .gender-card.next {
+        transform: translate(120%, 0) scale(0.85);
+        z-index: 5;
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+    /* Mobile Adjustment */
+    @media (max-width: 768px) {
+        .gender-carousel-container { height: 400px; }
+        .gender-card { width: 220px; height: 320px; }
+        .gender-card.prev { transform: translate(-80%, 0) scale(0.8); }
+        .gender-card.next { transform: translate(80%, 0) scale(0.8); }
+    }
 
     /* Testimonials */
     .testimonials { background: var(--bg-light); padding: 80px 20px; }
@@ -395,27 +471,29 @@
         <div class="section-header">
             <h2 class="section-title">Shop By <em>Gender</em></h2>
         </div>
-        <div class="gender-grid">
-            <a href="/collections?gender=for-him" class="gender-card">
-                <img src="{{ asset('Images/gender-him.webp') }}" alt="For Him">
-                <div class="gender-overlay">
-                    <h3 class="gender-title">FOR HIM</h3>
-                </div>
-            </a>
+        <div class="gender-carousel-container">
+            <div class="gender-carousel">
+                <a href="/collections?gender=for-him" class="gender-card active" data-index="0">
+                    <img src="{{ asset('Images/gender-him.webp') }}" alt="For Him">
+                    <div class="gender-overlay">
+                        <h3 class="gender-title">FOR HIM</h3>
+                    </div>
+                </a>
 
-            <a href="/collections?gender=for-her" class="gender-card">
-                <img src="{{ asset('Images/gender-her.webp') }}" alt="For Her">
-                <div class="gender-overlay">
-                    <h3 class="gender-title">FOR HER</h3>
-                </div>
-            </a>
+                <a href="/collections?gender=for-her" class="gender-card next" data-index="1">
+                    <img src="{{ asset('Images/gender-her.webp') }}" alt="For Her">
+                    <div class="gender-overlay">
+                        <h3 class="gender-title">FOR HER</h3>
+                    </div>
+                </a>
 
-            <a href="/collections?gender=unisex" class="gender-card">
-                <img src="{{ asset('Images/gender-unisex.webp') }}" alt="Unisex">
-                <div class="gender-overlay">
-                    <h3 class="gender-title">UNISEX</h3>
-                </div>
-            </a>
+                <a href="/collections?gender=unisex" class="gender-card prev" data-index="2">
+                    <img src="{{ asset('Images/gender-unisex.webp') }}" alt="Unisex">
+                    <div class="gender-overlay">
+                        <h3 class="gender-title">UNISEX</h3>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -596,6 +674,51 @@
         if(popup) popup.classList.remove('active');
         if(alertOverlay) alertOverlay.classList.remove('active');
     }
+
+    // Gender Carousel
+    const genderCards = document.querySelectorAll('.gender-card');
+    
+    function rotateGender() {
+        // Current state: 0 (active), 1 (next), 2 (prev)
+        // We want: 0 becomes prev (2), 1 becomes active (0), 2 becomes next (1) -> moving items left
+        // Or simple rotation
+        
+        let active = document.querySelector('.gender-card.active');
+        let next = document.querySelector('.gender-card.next');
+        let prev = document.querySelector('.gender-card.prev');
+        
+        // Remove classes
+        if(active) active.classList.remove('active');
+        if(next) next.classList.remove('next');
+        if(prev) prev.classList.remove('prev');
+        
+        // Shift assignments: prev <- active <- next <- prev (Rotating right/content moves left)
+        if(active) active.classList.add('prev');
+        if(next) next.classList.add('active');
+        if(prev) prev.classList.add('next');
+    }
+    
+    // Auto rotate every 3 seconds
+    let genderInterval = setInterval(rotateGender, 3000);
+    
+    // Pause on hover
+    const genderContainer = document.querySelector('.gender-carousel');
+    if(genderContainer) {
+        genderContainer.addEventListener('mouseenter', () => clearInterval(genderInterval));
+        genderContainer.addEventListener('mouseleave', () => genderInterval = setInterval(rotateGender, 3000));
+    }
+    
+    // Click to activate
+    genderCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if(!this.classList.contains('active')) {
+                e.preventDefault(); // Don't navigate if clicking side card, just rotate to it (optional UX)
+                // Determine direction based on class and rotate
+                rotateGender(); // Simple single step rotation implies clicking 'next'.
+                // If we want bidirectional, we need more logic, but user visual asked for 'round moving', simple one-way loop is fine.
+            }
+        });
+    });
 
     const alertOverlay = document.getElementById('popupOverlay');
     if(alertOverlay) alertOverlay.addEventListener('click', closePopup);

@@ -134,7 +134,7 @@ class PageController extends Controller
         }
 
         return view('nurah.all-products', [
-            'title' => 'All Products',
+            'title' => 'All Perfumes',
             'products' => $products,
             'counts' => $counts
         ]);

@@ -20,8 +20,8 @@
                 <li><a href="{{ route('collection', ['category' => 'fresh']) }}">Fresh Collection</a></li>
                 <li><a href="{{ route('collection', ['category' => 'oriental-woody']) }}">Oriental & Woody</a></li>
                 <li><a href="{{ route('collection', ['category' => 'floral']) }}">Floral Collection</a></li>
-                <li><a href="{{ route('all-products') }}">All Products</a></li>
-                <li><a href="{{ route('cosmopolitan') }}">Cosmopolitan</a></li>
+                <li><a href="{{ route('all-products') }}">All Perfumes</a></li>
+                <li><a href="{{ route('combos') }}">Combo Offers</a></li>
             </ul>
         </div>
 
@@ -31,7 +31,7 @@
             <ul class="footer-links">
                 <li><a href="{{ route('about') }}">About Us</a></li>
                 <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                <li><a href="#">Store Locator</a></li>
+                <!-- <li><a href="#">Store Locator</a></li> -->
                 <li><a href="#">Shipping Policy</a></li>
                 <li><a href="#">Returns & Exchanges</a></li>
             </ul>
@@ -40,7 +40,7 @@
         <!-- Chat Support Column -->
         <div class="footer-col">
             <h3 class="footer-heading">Need Assistance?</h3>
-            <p class="newsletter-text">Have questions concerning our products? Chat with our support team for instant assistance.</p>
+            <p class="newsletter-text">Have questions concerning our perfumes? Chat with our support team for instant assistance.</p>
             <!-- <a href="https://wa.me/917306900600" target="_blank" class="footer-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; padding: 12px 25px; margin-top: 10px; background-color: #25D366; color: white; border: none;">
                 <i class="fab fa-whatsapp" style="font-size: 20px;"></i> WhatsApp
             </a> -->

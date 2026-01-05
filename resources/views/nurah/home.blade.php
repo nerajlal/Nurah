@@ -141,7 +141,7 @@
         .section { padding: 80px 20px; }
         .hero-slider { height: 90vh; }
         .product-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
-        .category-grid { grid-template-columns: repeat(3, 1fr); }
+        .category-grid { grid-template-columns: repeat(4, 1fr); }
         .blog-grid { grid-template-columns: repeat(3, 1fr); }
         .about-section { grid-template-columns: 1fr 1px; }
         /* Fix for about section grid column count - intended to be 2 column */
@@ -257,6 +257,18 @@
             <h2 class="section-title">Our <em>Collections</em></h2>
         </div>
         <div class="category-grid">
+            @forelse($collections as $collection)
+            <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
+                <div class="category-overlay">
+                    <div>
+                        <h3 class="category-name">{{ $collection->name }}</h3>
+                        <p class="category-desc">{{ $collection->description }}</p>
+                    </div>
+                </div>
+            </a>
+            @empty
+            <!-- Fallback if no collections found (keep one or display nothing) -->
             <a href="/collections?category=fresh" class="category-card">
                 <img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh">
                 <div class="category-overlay">
@@ -266,7 +278,6 @@
                     </div>
                 </div>
             </a>
-
             <a href="/collections?category=oriental-woody" class="category-card">
                 <img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental/Woody">
                 <div class="category-overlay">
@@ -276,7 +287,6 @@
                     </div>
                 </div>
             </a>
-
             <a href="/collections?category=floral" class="category-card">
                 <img src="{{ asset('Images/category-floral.webp') }}" alt="Floral">
                 <div class="category-overlay">
@@ -286,6 +296,7 @@
                     </div>
                 </div>
             </a>
+            @endforelse
         </div>
     </section>
 

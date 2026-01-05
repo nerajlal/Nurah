@@ -16,7 +16,9 @@ class PageController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
             
-        return view('nurah.home', compact('sliders', 'bestsellers'));
+        $collections = \App\Models\Collection::where('status', true)->limit(4)->get();
+            
+        return view('nurah.home', compact('sliders', 'bestsellers', 'collections'));
     }
 
     public function collection(Request $request)

@@ -17,7 +17,14 @@
             @endauth
             <a href="{{ route('cart') }}" class="icon-btn" style="color: inherit;">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">0</span>
+                @php
+                    if(auth()->check()) {
+                        $cartCount = \App\Models\Cart::where('user_id', auth()->id())->sum('quantity');
+                    } else {
+                        $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
+                    }
+                @endphp
+                <span class="cart-count" style="{{ $cartCount > 0 ? 'display: flex;' : 'display: none;' }}">{{ $cartCount }}</span>
             </a>
         </div>
     </div>

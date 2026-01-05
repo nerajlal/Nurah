@@ -13,7 +13,10 @@ Route::get('/cosmopolitan', [PageController::class, 'cosmopolitan'])->name('cosm
 Route::get('/product', [PageController::class, 'product'])->name('product');
 Route::view('/about', 'nurah.about')->name('about');
 Route::view('/contact', 'nurah.contact')->name('contact');
-Route::view('/cart', 'nurah.cart')->name('cart');
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
 Route::view('/checkout', 'nurah.checkout')->name('checkout');
 
 // User Auth Routes

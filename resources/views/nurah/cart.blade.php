@@ -259,6 +259,7 @@
 <div class="cart-page">
     <h1 class="page-title">Shopping Cart</h1>
     
+    @if(count($cart) > 0)
     <!-- Cart populated -->
     <div class="cart-container" id="cartContainer">
         <div class="cart-items">
@@ -270,50 +271,35 @@
                 <div></div>
             </div>
             
-            <!-- Sample Item 1 -->
-            <div class="cart-item">
+            @foreach($cart as $id => $details)
+            <div class="cart-item" data-id="{{ $id }}">
                 <div class="item-info">
-                    <img src="{{ asset('Images/product-purple-mystique.webp') }}" alt="Purple Mystique" class="item-image">
+                    <img src="{{ $details['image'] }}" alt="{{ $details['name'] }}" class="item-image" onerror="this.src='{{ asset('images/g-load.webp') }}'">
                     <div class="item-details">
-                        <h3>Purple Mystique</h3>
-                        <p style="font-size: 12px; color: #666;">EDP - 100ml</p>
+                        <h3>{{ $details['name'] }}</h3>
+                        @if(isset($details['size']) && $details['size'])
+                            <p style="font-size: 12px; color: #666;">Size: {{ $details['size'] }}</p>
+                        @endif
                     </div>
                 </div>
-                <div class="item-price">₹1,500</div>
+                <div class="item-price">₹{{ number_format($details['price']) }}</div>
                 <div class="item-quantity">
-                    <button class="qty-btn minus">-</button>
-                    <input type="text" value="1" class="qty-input" readonly>
-                    <button class="qty-btn plus">+</button>
+                    <button class="qty-btn minus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] - 1 }})">-</button>
+                    <input type="text" value="{{ $details['quantity'] }}" class="qty-input" readonly>
+                    <button class="qty-btn plus" onclick="updateCart('{{ $id }}', {{ $details['quantity'] + 1 }})">+</button>
                 </div>
-                <div class="item-total">₹1,500</div>
-                <button class="remove-btn"><i class="fas fa-trash"></i></button>
+                <div class="item-total" id="total-{{ $id }}">₹{{ number_format($details['price'] * $details['quantity']) }}</div>
+                <button class="remove-btn" onclick="removeItem('{{ $id }}')"><i class="fas fa-trash"></i></button>
             </div>
+            @endforeach
             
-            <!-- Sample Item 2 -->
-            <div class="cart-item">
-                <div class="item-info">
-                    <img src="{{ asset('Images/product-dark-oud.webp') }}" alt="Dark Oud" class="item-image">
-                    <div class="item-details">
-                        <h3>Dark Oud</h3>
-                        <p style="font-size: 12px; color: #666;">EDP - 50ml</p>
-                    </div>
-                </div>
-                <div class="item-price">₹2,200</div>
-                <div class="item-quantity">
-                    <button class="qty-btn minus">-</button>
-                    <input type="text" value="1" class="qty-input" readonly>
-                    <button class="qty-btn plus">+</button>
-                </div>
-                <div class="item-total">₹2,200</div>
-                <button class="remove-btn"><i class="fas fa-trash"></i></button>
-            </div>
         </div>
         
         <div class="cart-summary">
             <h2 class="summary-title">Order Summary</h2>
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span>₹3,700</span>
+                <span id="cart-subtotal">₹{{ number_format($total) }}</span>
             </div>
             <div class="summary-row">
                 <span>Shipping</span>
@@ -321,73 +307,114 @@
             </div>
             <div class="summary-total">
                 <span>Total</span>
-                <span>₹3,700</span>
+                <span id="cart-total">₹{{ number_format($total) }}</span>
             </div>
             <a href="{{ route('checkout') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">Proceed to Checkout</a>
             <a href="{{ route('collection') }}" class="continue-shopping">Continue Shopping</a>
         </div>
     </div>
+    @else
+        <div class="empty-cart" id="emptyCart" style="display: block;">
+            <div class="empty-icon"><i class="fas fa-shopping-bag"></i></div>
+            <h2>Your cart is empty</h2>
+            <p class="mb-20">Looks like you haven't added any perfumes yet.</p>
+            <a href="{{ route('collection') }}" class="checkout-btn" style="display: inline-block; width: auto; padding: 12px 30px;">Start Shopping</a>
+        </div>
+    @endif
     
-    <!-- Empty State -->
-    <div class="empty-cart" id="emptyCart">
+    <!-- Empty State (Hidden initially if cart has items) -->
+    <div class="empty-cart" id="emptyCartHidden" style="display: none;">
         <div class="empty-icon"><i class="fas fa-shopping-bag"></i></div>
         <h2>Your cart is empty</h2>
         <p class="mb-20">Looks like you haven't added any perfumes yet.</p>
         <a href="{{ route('collection') }}" class="checkout-btn" style="display: inline-block; width: auto; padding: 12px 30px;">Start Shopping</a>
     </div>
+
 </div>
 
 @push('scripts')
 <script>
-    // Simple Qty Logic (Frontend Demo)
-    document.querySelectorAll('.qty-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const input = this.parentElement.querySelector('.qty-input');
-            let val = parseInt(input.value);
-            
-            if (this.classList.contains('plus')) {
-                val++;
-            } else {
-                if (val > 1) val--;
-            }
-            input.value = val;
-            
-            // Note: In a real app, you'd trigger an AJAX update here to recalculate totals
-            updateTotals();
-        });
-    });
-    
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if(confirm('Remove this item?')) {
-                const item = this.closest('.cart-item');
-                item.remove();
+    function updateCart(id, newQty) {
+        if(newQty < 1) return; // Minimum 1
+
+        fetch('{{ route("cart.update") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                id: id,
+                quantity: newQty
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Update specific row
+                const row = document.querySelector(`.cart-item[data-id="${id}"]`);
+                row.querySelector('.qty-input').value = newQty;
+                row.querySelector('.minus').onclick = () => updateCart(id, newQty - 1);
+                row.querySelector('.plus').onclick = () => updateCart(id, newQty + 1);
                 
-                if (document.querySelectorAll('.cart-item').length === 0) {
-                    document.getElementById('cartContainer').style.display = 'none';
-                    document.getElementById('emptyCart').style.display = 'block';
+                document.getElementById(`total-${id}`).innerText = '₹' + new Intl.NumberFormat().format(data.itemTotal);
+                
+                // Update totals
+                updateSummary(data.cartTotal);
+
+                // Update Badge
+                const cartBadge = document.querySelector('.cart-count'); 
+                if(cartBadge) {
+                    cartBadge.innerText = data.cartCount;
                 }
-                updateTotals();
             }
         });
-    });
-    
-    function updateTotals() {
-        let total = 0;
-        document.querySelectorAll('.cart-item').forEach(item => {
-            const priceStr = item.querySelector('.item-price').textContent.replace(/[^\d]/g, '');
-            const qty = parseInt(item.querySelector('.qty-input').value);
-            const price = parseInt(priceStr);
-            
-            // Update individual item total
-            const itemTotal = price * qty;
-            item.querySelector('.item-total').textContent = '₹' + itemTotal.toLocaleString();
-            
-            total += itemTotal;
+    }
+
+    function removeItem(id) {
+        if(!confirm('Are you sure you want to remove this item?')) return;
+
+        fetch('{{ route("cart.remove") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                // Remove row
+                document.querySelector(`.cart-item[data-id="${id}"]`).remove();
+                
+                // Update totals
+                updateSummary(data.cartTotal);
+                
+                // Check if empty
+                if(data.isEmpty) {
+                    document.getElementById('cartContainer').style.display = 'none';
+                    document.getElementById('emptyCartHidden').style.display = 'block';
+                }
+                
+                // Update Badge
+                const cartBadge = document.querySelector('.cart-count'); 
+                if(cartBadge) {
+                    cartBadge.innerText = data.cartCount;
+                    if(data.cartCount > 0) {
+                        cartBadge.style.display = 'flex';
+                    } else {
+                        cartBadge.style.display = 'none';
+                    }
+                }
+            }
         });
-        
-        document.querySelector('.summary-row span:last-child').textContent = '₹' + total.toLocaleString();
-        document.querySelector('.summary-total span:last-child').textContent = '₹' + total.toLocaleString();
+    }
+
+    function updateSummary(total) {
+        const formatted = '₹' + new Intl.NumberFormat().format(total);
+        document.getElementById('cart-subtotal').innerText = formatted;
+        document.getElementById('cart-total').innerText = formatted;
     }
 </script>
 @endpush

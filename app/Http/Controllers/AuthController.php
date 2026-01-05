@@ -35,6 +35,9 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        
+        // Sync session cart to DB
+        \App\Http\Controllers\CartController::syncSession($user->id);
 
         return redirect()->route('home')->with('success', 'Registration successful! Welcome to Nurah Perfumes.');
     }
@@ -48,6 +51,9 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            // Sync session cart to DB
+            \App\Http\Controllers\CartController::syncSession(Auth::id());
 
             return redirect()->intended(route('home'));
         }
@@ -110,6 +116,9 @@ class AuthController extends Controller
         
             Auth::login($user);
             \Illuminate\Support\Facades\Log::info('User logged in.');
+            
+            // Sync session cart to DB
+            \App\Http\Controllers\CartController::syncSession(Auth::id());
         
             return redirect()->route('home')->with('success', 'Logged in with Google successfully!');
         

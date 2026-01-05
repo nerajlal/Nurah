@@ -585,18 +585,51 @@
     }
 
     function addToCart() {
-        const toast = document.getElementById('toast');
-        toast.style.opacity = '1';
-        setTimeout(() => toast.style.opacity = '0', 2500);
-        
-        if(navigator.vibrate) navigator.vibrate(50);
-        
-        const cartBadge = document.querySelector('.cart-count'); 
-        if(cartBadge) {
-            let count = parseInt(cartBadge.innerText) || 0;
-            cartBadge.innerText = count + quantity;
-            cartBadge.style.display = 'flex'; // Ensure visible
-        }
+        const btn = document.querySelector('.btn-main'); // Disable btn to prevent double click
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+
+        const sizeBtn = document.querySelector('.size-btn.active');
+        const size = sizeBtn ? sizeBtn.innerText.trim() : null;
+
+        fetch('{{ route("cart.add") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                id: {{ $product->id }},
+                quantity: quantity,
+                size: size
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 2500);
+                
+                if(navigator.vibrate) navigator.vibrate(50);
+                
+                const cartBadge = document.querySelector('.cart-count'); 
+                if(cartBadge) {
+                    cartBadge.innerText = data.cartCount;
+                    cartBadge.style.display = 'flex'; // Ensure visible
+                }
+            } else {
+                alert(data.message || 'Error adding to cart');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        });
     }
     
     function swapMain(src) {

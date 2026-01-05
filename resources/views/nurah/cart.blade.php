@@ -274,9 +274,19 @@
             @foreach($cart as $id => $details)
             <div class="cart-item" data-id="{{ $id }}">
                 <div class="item-info">
-                    <img src="{{ $details['image'] }}" alt="{{ $details['name'] }}" class="item-image" onerror="this.src='{{ asset('images/g-load.webp') }}'">
+                    @php
+                        $itemUrl = isset($details['bundle_id']) 
+                            ? route('combo', ['id' => $details['bundle_id']]) 
+                            : route('product', ['id' => $details['product_id']]);
+                    @endphp
+                    
+                    <a href="{{ $itemUrl }}">
+                        <img src="{{ $details['image'] }}" alt="{{ $details['name'] }}" class="item-image" onerror="this.src='{{ asset('images/g-load.webp') }}'">
+                    </a>
                     <div class="item-details">
-                        <h3>{{ $details['name'] }}</h3>
+                        <a href="{{ $itemUrl }}" style="text-decoration: none; color: inherit;">
+                            <h3>{{ $details['name'] }}</h3>
+                        </a>
                         @if(isset($details['size']) && $details['size'])
                             <p style="font-size: 12px; color: #666;">Size: {{ $details['size'] }}</p>
                         @endif

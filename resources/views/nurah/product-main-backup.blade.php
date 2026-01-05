@@ -1,6 +1,6 @@
 @extends('nurah.layouts.app')
 
-@section('title', $bundle->title . ' - Nurah Perfumes')
+@section('title', $product->title . ' - Nurah Perfumes')
 
 @push('styles')
 <style>
@@ -914,24 +914,18 @@
         <div class="product-gallery-column">
             <div class="image-gallery">
                 <div class="main-image-container">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" alt="{{ $bundle->title }}" class="main-image" id="mainImage">
+                    @if($product->created_at->diffInDays(now()) < 7)
+                    <span class="image-badge">New</span>
+                    @endif
+                    <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="main-image" id="mainImage">
                 </div>
-                <!-- Optional: Show images of included products as gallery thumbnails -->
                 <div class="thumbnail-strip">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" 
-                         data-full-img="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" 
-                         class="thumbnail active" 
-                         onclick="changeImage(this, -1)" 
-                         alt="{{ $bundle->title }}">
-                         
-                    @foreach($bundle->products as $index => $prod)
-                        @if($prod->images->count() > 0)
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($prod->images->first()->path) }}" 
-                             data-full-img="{{ \Illuminate\Support\Facades\Storage::url($prod->images->first()->path) }}" 
-                             class="thumbnail" 
-                             onclick="changeImage(this, {{ $index }})" 
-                             alt="{{ $prod->title }}">
-                        @endif
+                    @foreach($product->images as $index => $image)
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($image->path) }}" 
+                         data-full-img="{{ \Illuminate\Support\Facades\Storage::url($image->path) }}" 
+                         class="thumbnail {{ $index === 0 ? 'active' : '' }}" 
+                         onclick="changeImage(this, {{ $index }})" 
+                         alt="{{ $product->title }} View {{ $index + 1 }}">
                     @endforeach
                 </div>
             </div>
@@ -943,26 +937,14 @@
         <div class="product-info-column">
             <div class="product-info">
                 <div class="product-header">
-                    <h1 class="product-name">{{ $bundle->title }}</h1>
+                    <h1 class="product-name">{{ $product->title }}</h1>
                     <div class="product-price" id="productPrice">
-                        @php
-                            $originalPrice = $bundle->products->sum(function($prod) {
-                                return $prod->variants->min('price') ?? 0;
-                            });
-                        @endphp
-                        
-                        @if($originalPrice > $bundle->total_price)
-                        <span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-right: 8px;">₹{{ number_format($originalPrice, 0) }}</span>
+                        @if(isset($product->compare_at_price) && $product->compare_at_price > $product->starting_price)
+                            <span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 8px;">₹{{ number_format($product->compare_at_price, 0) }}</span>
                         @endif
-                        
-                        <span class="current-price">₹{{ number_format($bundle->total_price, 0) }}</span>
-                        
-                        @if($bundle->discount_value > 0)
-                        <span style="background: #ffe3e3; color: #d32f2f; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-left: 10px;">
-                            Save {{ $bundle->discount_type == 'percentage' ? number_format($bundle->discount_value) . '%' : '₹' . number_format($bundle->discount_value) }} with this combo
-                        </span>
-                        @endif
+                        <span class="current-price">₹{{ number_format($product->starting_price, 0) }}</span>
                     </div>
+
                 </div>
 
                 <!-- Promo Banner -->
@@ -972,23 +954,70 @@
                 </div>
                 @endif
 
-                <!-- Included Products -->
+                @if(isset($bundle))
+                <a href="{{ route('combo', ['id' => $bundle->id]) }}" style="text-decoration: none; display: block; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                    <div class="promo-banner" style="background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%); margin-top: 10px; color: white; display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+                        <span>Combo Offer: Buy as combo and save {{ $bundle->discount_type == 'percentage' ? number_format($bundle->discount_value) . '%' : '₹' . number_format($bundle->discount_value) }} !</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+                @endif
+
+                <!-- Size Selection -->
                 <div class="option-section">
-                    <label class="option-label">Included Products</label>
-                    <div style="background: var(--bg-light); padding: 15px; border-radius: 12px;">
-                        @foreach($bundle->products as $prod)
-                        <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
-                            <img src="{{ \Illuminate\Support\Facades\Storage::url($prod->images->first()->path ?? '') }}" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover;">
-                            <div>
-                                <div style="font-weight: 700; font-size: 13px;">{{ $prod->title }}</div>
-                                <div style="font-size: 11px; color: var(--text-light);">{{ $prod->variants->first()->size ?? '' }}</div>
-                            </div>
+                    <label class="option-label">Select Size</label>
+                    <div class="size-options">
+                        @foreach($product->variants as $index => $variant)
+                        <div class="size-option {{ $index === 0 ? 'active' : '' }}" 
+                             data-price="{{ $variant->price }}" 
+                             data-compare-at-price="{{ $variant->compare_at_price ?? '' }}"
+                             onclick="selectSize(this)">
+                            <span class="size-label">{{ $variant->size }}</span>
+                            <span class="size-price">₹{{ number_format($variant->price, 0) }}</span>
                         </div>
                         @endforeach
                     </div>
                 </div>
 
+                <!-- Intensity -->
+                <div class="option-section">
+                    <label class="option-label">Intensity</label>
+                    <div class="intensity-container">
+                        <div class="intensity-label">{{ $product->intensity ?? 'Medium' }}</div>
+                        <div class="intensity-bar">
+                            @php
+                                $intensity = strtolower($product->intensity ?? 'medium');
+                                $width = '60%'; // Default Medium
+                                if(str_contains($intensity, 'strong') || str_contains($intensity, 'high')) $width = '100%';
+                                elseif(str_contains($intensity, 'light') || str_contains($intensity, 'low')) $width = '30%';
+                            @endphp
+                            <div class="intensity-fill" style="width: {{ $width }}"></div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Notes -->
+                <div class="notes-card">
+                    <div class="notes-title">Notes & Composition</div>
+                    @if($product->notes_top)
+                    <div class="note-item">
+                        <div class="note-type">▲ Top Notes</div>
+                        <div class="note-list">{{ $product->notes_top }}</div>
+                    </div>
+                    @endif
+                    @if($product->notes_heart)
+                    <div class="note-item">
+                        <div class="note-type">■ Middle Notes</div>
+                        <div class="note-list">{{ $product->notes_heart }}</div>
+                    </div>
+                    @endif
+                    @if($product->notes_base)
+                    <div class="note-item">
+                        <div class="note-type">▼ Base Notes</div>
+                        <div class="note-list">{{ $product->notes_base }}</div>
+                    </div>
+                    @endif
+                </div>
 
 
                 <!-- Quantity -->
@@ -1020,22 +1049,30 @@
                         </div>
                         <div class="accordion-content">
                             <div class="accordion-text">
-                                {!! nl2br(e($bundle->description)) !!}
+                                <strong>{{ $product->olfactory_family }}</strong>
+                                <br><br>
+                                {!! nl2br(e($product->description)) !!}
                             </div>
                         </div>
                     </div>
 
-                    <!-- <div class="detail-accordion">
+                    <div class="detail-accordion">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
                             <span class="accordion-title">Key Features</span>
                             <span class="accordion-icon">▼</span>
                         </div>
                         <div class="accordion-content">
+                            <div class="detail-highlight">
+                                <span class="highlight-badge">{{ $product->oil_concentration }}% Oil Concentration</span>
+                                <p class="highlight-text">Experience the captivating scent that has been reformulated for the Indian tropical weather.</p>
+                            </div>
                             <div class="accordion-text">
-                                <p>Get the best of both worlds with this exclusive combo offer.</p>
+                            <div class="accordion-text">
+                                <!-- Dynamic features to be added later -->
+                            </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="detail-accordion">
                         <div class="accordion-header" onclick="toggleAccordion(this)">
@@ -1118,27 +1155,28 @@
         </div>
     </div>
 
-    <!-- Related Bundles -->
+    <!-- Related Products -->
     <div class="related-products-section">
-        <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">You May Also Like</h2>
+        <h2 class="reviews-title" style="margin: 0 0 20px 20px; font-size: 20px;">Recently Viewed</h2>
         <div class="related-scroll-container">
-            @forelse($relatedBundles as $related)
-            <div class="product-card" onclick="window.location.href='{{ route('combo', ['id' => $related->id]) }}'">
+            @forelse($relatedProducts as $related)
+            <div class="product-card" onclick="window.location.href='{{ route('product', ['id' => $related->id]) }}'">
                 <div class="product-image-wrapper">
-                    @if($related->discount_value > 0)
-                    <span class="product-badge">Save {{ $related->discount_type == 'percentage' ? number_format($related->discount_value) . '%' : 'Rs. ' . number_format($related->discount_value) }}</span>
+                    <button class="favorite-btn" onclick="event.stopPropagation(); toggleFavorite(this)">♡</button>
+                    @if($related->created_at->diffInDays(now()) < 7)
+                    <span class="product-badge">New</span>
                     @endif
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($related->image) }}" class="product-image" alt="{{ $related->title }}">
+                    <img src="{{ $related->main_image_url }}" class="product-image" alt="{{ $related->title }}">
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">{{ $related->title }}</h3>
-                    <p class="product-price">₹{{ number_format($related->total_price, 0) }}</p>
-                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart('{{ $related->title }}')">Add to Cart</button>
+                    <p class="product-price">₹{{ number_format($related->starting_price, 0) }}</p>
+                    <button class="quick-view-btn" onclick="event.stopPropagation(); addToCart()">Add to Cart</button>
                 </div>
             </div>
             @empty
             <div style="padding: 20px; text-align: center; width: 100%; color: var(--text-light);">
-                No other bundles available.
+                No other products viewed yet.
             </div>
             @endforelse
     </div>
@@ -1164,37 +1202,28 @@
     // State variables
     let currentImageIndex = 0;
     let quantity = 1;
-    let currentPrice = {{ $bundle->total_price }};
-    let currentCompareAtPrice = 0; // Bundles usually have direct discount logic handled in total_price or display
+    let currentPrice = {{ $product->starting_price }};
+    let currentCompareAtPrice = {{ $product->compare_at_price ?? 0 }};
 
     // Helper: Update Price Display
     function updatePrice() {
         const total = currentPrice * quantity;
         const productPriceEl = document.getElementById('productPrice');
+        const cartPriceEl = document.getElementById('cartPrice');
         
         if (productPriceEl) {
             let priceHtml = '';
+            if (currentCompareAtPrice > currentPrice) {
+                priceHtml += `<span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.8em; margin-right: 8px;">Rs. ${currentCompareAtPrice.toLocaleString()}.00</span>`;
+            }
             priceHtml += `<span class="current-price">Rs. ${currentPrice.toLocaleString()}.00</span>`;
+            
             productPriceEl.innerHTML = priceHtml;
         }
-    }
-
-
-    window.increaseQty = function() {
-        quantity++;
-        const qtyEl = document.getElementById('quantity');
-        if(qtyEl) qtyEl.textContent = quantity;
-        updatePrice();
-    };
-
-    window.decreaseQty = function() {
-        if (quantity > 1) {
-            quantity--;
-            const qtyEl = document.getElementById('quantity');
-            if(qtyEl) qtyEl.textContent = quantity;
-            updatePrice();
+        if (cartPriceEl) {
+            cartPriceEl.textContent = `₹${total.toLocaleString()}`;
         }
-    };
+    }
 
     // Expose functions to window
     window.changeImage = function(thumbnail, index) {
@@ -1214,7 +1243,7 @@
         thumbnails.forEach(t => t.classList.remove('active'));
         thumbnail.classList.add('active');
 
-        if (index >= 0 && dots.length > index) {
+        if (dots.length > index) {
             dots.forEach(d => d.classList.remove('active'));
             dots[index].classList.add('active');
         }
@@ -1222,12 +1251,40 @@
         currentImageIndex = index;
     };
 
-    window.addToCart = function(title) {
-        const toast = document.getElementById('toast');
-        if(toast) {
-            toast.textContent = (title || 'Bundle') + ' added to cart!';
-            toast.classList.add('show');
+    window.selectSize = function(element) {
+        document.querySelectorAll('.size-option').forEach(opt => {
+            opt.classList.remove('active');
+        });
+        element.classList.add('active');
+
+        const price = element.getAttribute('data-price');
+        const compareAt = element.getAttribute('data-compare-at-price');
+        
+        currentPrice = parseInt(price);
+        currentCompareAtPrice = compareAt ? parseInt(compareAt) : 0;
+        
+        updatePrice();
+    };
+
+    window.increaseQty = function() {
+        quantity++;
+        const qtyEl = document.getElementById('quantity');
+        if(qtyEl) qtyEl.textContent = quantity;
+        updatePrice();
+    };
+
+    window.decreaseQty = function() {
+        if (quantity > 1) {
+            quantity--;
+            const qtyEl = document.getElementById('quantity');
+            if(qtyEl) qtyEl.textContent = quantity;
+            updatePrice();
         }
+    };
+
+    window.addToCart = function() {
+        const toast = document.getElementById('toast');
+        if(toast) toast.classList.add('show');
 
         // Update cart count
         const cartCount = document.querySelector('.cart-count');

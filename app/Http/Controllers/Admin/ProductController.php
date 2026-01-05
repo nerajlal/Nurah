@@ -150,6 +150,15 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
         
+        // Max 5 Images Validation
+        $currentCount = $product->images()->count();
+        $deletedCount = $request->has('deleted_images') ? count($request->deleted_images) : 0;
+        $newCount = $request->hasFile('media') ? count($request->file('media')) : 0;
+        
+        if (($currentCount - $deletedCount + $newCount) > 5) {
+            return back()->withInput()->withErrors(['media' => "You can only have a maximum of 5 images. You currently have $currentCount, are deleting $deletedCount, and trying to add $newCount."]);
+        }
+        
         $product->update($request->only([
             'title', 'description', 'status', 'type', 'vendor', 
             'collection_id', 'gender', 'olfactory_family', 

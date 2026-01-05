@@ -113,6 +113,17 @@
                     if (files.length > 0) {
                          previewGrid.classList.remove('d-none');
                     }
+                    
+                    // Max 5 Images Validation
+                    const existingCount = document.querySelectorAll('.existing-image').length;
+                    const deletedCount = document.querySelectorAll('input[name="deleted_images[]"]').length;
+                    const newCount = files.length;
+                    
+                    if ((existingCount - deletedCount + newCount) > 5) {
+                        alert(`You can only have a maximum of 5 images. You currently have ${existingCount}, are deleting ${deletedCount}, and trying to add ${newCount}.`);
+                        event.target.value = ''; // Clear input
+                        return; // Stop processing
+                    }
 
                     for (let i = 0; i < files.length; i++) {
                         const file = files[i];

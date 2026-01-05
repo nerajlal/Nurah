@@ -6,10 +6,10 @@
             <div class="footer-logo">Nurah Perfumes</div>
             <p class="footer-tagline">Crafting memories through scents. India's first perfume bar offering exceptional, long-lasting fragrances.</p>
             <div class="footer-social">
+                <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-pinterest-p"></i></a>
             </div>
         </div>
 

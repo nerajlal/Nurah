@@ -141,6 +141,20 @@ class PageController extends Controller
         return view('nurah.collection', ['title' => 'Cosmopolitan Collection']);
     }
 
+    public function combos()
+    {
+        // Fetch all active bundles
+        $bundles = \App\Models\Bundle::where('status', 'active')
+            ->with(['products'])
+            ->latest()
+            ->get();
+
+        return view('nurah.combos', [
+            'title' => 'Combos & Bundles',
+            'bundles' => $bundles
+        ]);
+    }
+
     public function product(Request $request)
     {
         $id = $request->query('id');

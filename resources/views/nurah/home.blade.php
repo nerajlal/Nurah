@@ -307,7 +307,7 @@
                         @endif
                         
                         @if($item->product->main_image_url)
-                            <img src="{{ $item->product->main_image_url }}" alt="{{ $item->product->title }}" class="product-image">
+                            <img src="{{ $item->product->main_image_url }}" alt="{{ $item->product->title }}" class="product-image" onerror="handleImageError(this)">
                         @else
                             <div class="d-flex align-items-center justify-content-center h-100 bg-light text-secondary">
                                 <i class="fas fa-image fa-2x opacity-25"></i>
@@ -345,7 +345,7 @@
                 </a>
             @endforelse
         </div>
-        <a href="/all-products" class="view-all-btn">View All Products</a>
+        <a href="/all-products" class="view-all-btn">View All Perfumes</a>
     </section>
 
     <!-- Store Section -->
@@ -369,7 +369,7 @@
                 <!-- Original Set -->
                 @forelse($collections as $collection)
                 <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}" onerror="handleImageError(this)">
                     <div class="category-overlay">
                         <div>
                             <h3 class="category-name">{{ $collection->name }}</h3>
@@ -379,16 +379,16 @@
                 </a>
                 @empty
                 <!-- Fallback if empty -->
-                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
-                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
-                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
-                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
+                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
+                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
+                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
+                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
                 @endforelse
 
                 <!-- Duplicate Set for Seamless Loop -->
                 @forelse($collections as $collection)
                 <a href="{{ route('collection', ['category' => $collection->slug]) }}" class="category-card">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($collection->image) }}" alt="{{ $collection->name }}" onerror="handleImageError(this)">
                     <div class="category-overlay">
                         <div>
                             <h3 class="category-name">{{ $collection->name }}</h3>
@@ -397,10 +397,10 @@
                     </div>
                 </a>
                 @empty
-                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
-                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
-                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
-                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
+                <a href="/collections?category=fresh" class="category-card"><img src="{{ asset('Images/category-fresh.webp') }}" alt="Fresh" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">FRESH</h3></div></div></a>
+                <a href="/collections?category=oriental-woody" class="category-card"><img src="{{ asset('Images/category-oriental-woody.webp') }}" alt="Oriental" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">ORIENTAL/WOODY</h3></div></div></a>
+                <a href="/collections?category=floral" class="category-card"><img src="{{ asset('Images/category-floral.webp') }}" alt="Floral" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">FLORAL</h3></div></div></a>
+                <a href="/collections?category=citrus" class="category-card"><img src="{{ asset('Images/category-citrus.webp') }}" alt="Citrus" onerror="handleImageError(this)"><div class="category-overlay"><div><h3 class="category-name">CITRUS</h3></div></div></a>
                 @endforelse
             </div>
         </div>
@@ -416,7 +416,7 @@
             @forelse($bundles as $bundle)
             <a href="{{ route('combo', ['id' => $bundle->id]) }}" class="product-card">
                 <div class="product-image-wrapper">
-                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" alt="{{ $bundle->title }}" class="product-image">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($bundle->image) }}" alt="{{ $bundle->title }}" class="product-image" onerror="handleImageError(this)">
                     @if($bundle->discount_value > 0)
                     <span class="product-badge" style="background: #d32f2f;">
                         {{ $bundle->discount_type == 'percentage' ? ' ' . number_format($bundle->discount_value) . '%' : 'SAVE ₹' . number_format($bundle->discount_value) }}
@@ -617,6 +617,14 @@
 
 @push('scripts')
 <script>
+    // Image Fallback
+    function handleImageError(img) {
+        if (!img.getAttribute('data-error-handled')) {
+            img.setAttribute('data-error-handled', 'true');
+            img.src = '{{ asset("images/g-load.webp") }}';
+        }
+    }
+
     // Hero Slider
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slide');

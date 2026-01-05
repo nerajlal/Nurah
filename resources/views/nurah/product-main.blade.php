@@ -404,7 +404,7 @@
         <!-- LEFT: GALLERY -->
         <div class="gallery-container">
             <div class="main-image-frame">
-                <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="main-image" id="mainImage">
+                <img src="{{ $product->main_image_url }}" alt="{{ $product->title }}" class="main-image" id="mainImage" onerror="handleImageError(this)">
             </div>
             
             <div class="thumbnails">
@@ -412,7 +412,8 @@
                 <img src="{{ \Illuminate\Support\Facades\Storage::url($image->path) }}" 
                      class="thumb {{ $index === 0 ? 'active' : '' }}" 
                      onclick="swapMain('{{ \Illuminate\Support\Facades\Storage::url($image->path) }}'); setActiveThumb(this)"
-                     alt="View {{ $index }}">
+                     alt="View {{ $index }}"
+                     onerror="handleImageError(this)">
                 @endforeach
             </div>
         </div>
@@ -540,7 +541,7 @@
         @foreach($relatedProducts as $related)
         <a href="{{ route('product', ['id' => $related->id]) }}" style="text-decoration: none;">
             <div style="background: #f9f9f9; aspect-ratio: 1; margin-bottom: 15px; border-radius: 10px; overflow: hidden;">
-                <img src="{{ $related->main_image_url }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="{{ $related->main_image_url }}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onerror="handleImageError(this)">
             </div>
             <div style="display: flex; justify-content: space-between; align-items: start;">
                 <h4 style="font-family: var(--font-display); font-size: 15px; margin: 0; font-weight: 500; line-height: 1.3; color: var(--color-text);">{{ $related->title }}</h4>
@@ -562,6 +563,11 @@
 <script>
     let currentPrice = {{ $product->starting_price }};
     let quantity = 1;
+
+    function handleImageError(img) {
+        img.onerror = null; // Prevent infinite loop
+        img.src = '{{ asset("images/g-load.webp") }}';
+    }
 
     function selectSize(btn, price) {
         document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));

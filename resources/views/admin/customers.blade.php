@@ -57,7 +57,7 @@
                  <tr>
                     <th class="px-3 py-3" style="width: 50px;"><div class="form-check"><input type="checkbox" class="form-check-input"></div></th>
                     <th class="px-3 py-3">Customer name</th>
-                    <th class="px-3 py-3">Email subscription</th>
+                    <th class="px-3 py-3">Email</th>
                     <th class="px-3 py-3">Location</th>
                     <th class="px-3 py-3">Orders</th>
                     <th class="px-3 py-3 text-end">Amount spent</th>
@@ -83,11 +83,7 @@
                         </div>
                     </td>
                     <td class="px-3 py-3">
-                        @if($customer->email_verified_at)
-                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-1 fw-medium">Verfied</span>
-                        @else
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2 py-1 fw-medium">Not Verified</span>
-                        @endif
+                    <td class="px-3 py-3 text-secondary">{{ $customer->email }}</td>
                     </td>
                     <td class="px-3 py-3">{{ $customer->phone ?? 'N/A' }}</td>
                     <td class="px-3 py-3">{{ $customer->orders_count ?? 0 }} orders</td>

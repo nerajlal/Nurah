@@ -20,7 +20,7 @@
     </td>
     <td class="px-3 py-3 fw-medium text-dark">₹ {{ number_format($bundle->total_price, 2) }}</td>
     <td class="px-3 py-3">{{ $bundle->products->count() }} products</td>
-    <td class="px-3 py-3">--</td> {{-- Sales data not yet available --}}
+    <td class="px-3 py-3">{{ $bundle->total_sales }}</td>
     <td class="px-3 py-3 text-end">
         <div class="d-flex justify-content-end gap-2" onclick="event.stopPropagation()">
              <a href="{{ route('admin.bundles.edit', $bundle->id) }}" class="btn btn-white btn-sm border-0 text-secondary hover-text-primary p-1"><i class="fas fa-edit"></i></a>

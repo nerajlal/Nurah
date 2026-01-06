@@ -58,6 +58,7 @@
                     <th class="px-3 py-3" style="width: 50px;"><div class="form-check"><input type="checkbox" class="form-check-input"></div></th>
                     <th class="px-3 py-3">Customer name</th>
                     <th class="px-3 py-3">Email</th>
+                    <th class="px-3 py-3">Phone</th>
                     <th class="px-3 py-3">Location</th>
                     <th class="px-3 py-3">Orders</th>
                     <th class="px-3 py-3 text-end">Amount spent</th>
@@ -78,14 +79,18 @@
                             <div class="d-flex align-items-center justify-content-center rounded-circle {{ $bgColors[$colorIndex] }} {{ $textColors[$colorIndex] }} fw-bold small" style="width: 32px; height: 32px;">{{ $initials }}</div>
                             <div>
                                 <p class="mb-0 fw-semibold text-dark text-decoration-hover-underline">{{ $customer->name }}</p>
-                                <p class="mb-0 small text-muted">{{ $customer->email }}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="px-3 py-3">
                     <td class="px-3 py-3 text-secondary">{{ $customer->email }}</td>
+                    <td class="px-3 py-3 text-secondary">{{ $customer->phone ?? 'N/A' }}</td>
+                    <td class="px-3 py-3 text-secondary">
+                        @if($customer->defaultAddress)
+                            {{ $customer->defaultAddress->city }}, {{ $customer->defaultAddress->state }}
+                        @else
+                            <span class="text-muted small">--</span>
+                        @endif
                     </td>
-                    <td class="px-3 py-3">{{ $customer->phone ?? 'N/A' }}</td>
                     <td class="px-3 py-3">{{ $customer->orders_count ?? 0 }} orders</td>
                     <td class="px-3 py-3 text-end fw-medium text-dark">₹{{ number_format($customer->total_spent ?? 0, 2) }}</td>
                 </tr>

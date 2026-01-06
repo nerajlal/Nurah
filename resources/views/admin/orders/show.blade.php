@@ -51,7 +51,21 @@
                             <h4 class="h6 fw-medium text-primary mb-1"><a href="#" class="text-decoration-none">{{ $item->name }}</a></h4>
                             <p class="small text-muted mb-0">
                                 @if($item->size) Size: {{ $item->size }}<br> @endif
-                                @if($item->type == 'bundle') Type: Bundle @endif
+                                @if($item->type == 'bundle') 
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.7em;">Bundle</span>
+                                    @if($item->bundle && $item->bundle->products->count() > 0)
+                                        <div class="mt-1 ps-2 border-start border-2">
+                                            <small class="text-muted d-block fw-bold">Includes:</small>
+                                            @foreach($item->bundle->products as $bProduct)
+                                                <small class="text-muted d-block">• {{ $bProduct->title }} 
+                                                    @if($bProduct->variants->isNotEmpty())
+                                                        ({{ $bProduct->variants->first()->size }})
+                                                    @endif
+                                                </small>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @endif
                             </p>
                         </div>
                         <div class="text-end">

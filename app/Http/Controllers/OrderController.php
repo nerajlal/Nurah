@@ -97,20 +97,28 @@ class OrderController extends Controller
             'placed_at' => now(),
         ]);
 
-        // 4.1 Save User Address if not exists
+        // 4.1 Save User Address if not exists or Update Phone on existing default
         if(Auth::check()) {
-            $hasAddress = \App\Models\UserAddress::where('user_id', Auth::id())->exists();
-            if(!$hasAddress) {
-                \App\Models\UserAddress::create([
-                    'user_id' => Auth::id(),
-                    'address_line1' => $request->address,
-                    'address_line2' => $request->apartment,
-                    'city' => $request->city,
-                    'state' => $request->state,
-                    'zip' => $request->zip,
-                    'country' => 'India',
-                    'is_default' => true,
-                ]);
+            $defaultAddress = \App\Models\UserAddress::where('user_id', Auth::id())->where('is_default', true)->first();
+
+            if ($defaultAddress) {
+                // Ensure latest phone is saved
+                $defaultAddress->update(['phone' => $request->phone]);
+            } else {
+                $hasAddress = \App\Models\UserAddress::where('user_id', Auth::id())->exists();
+                if(!$hasAddress) {
+                    \App\Models\UserAddress::create([
+                        'user_id' => Auth::id(),
+                        'phone' => $request->phone,
+                        'address_line1' => $request->address,
+                        'address_line2' => $request->apartment,
+                        'city' => $request->city,
+                        'state' => $request->state,
+                        'zip' => $request->zip,
+                        'country' => 'India',
+                        'is_default' => true,
+                    ]);
+                }
             }
         }
 

@@ -196,43 +196,74 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Neraj" required>
+                        <input type="text" name="first_name" class="form-control" placeholder="First Name" required value="{{ Auth::check() ? explode(' ', Auth::user()->name)[0] : '' }}">
                     </div>
                     <div class="form-group">
                         <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Lal" required>
+                        <input type="text" name="last_name" class="form-control" placeholder="Last Name" required value="{{ Auth::check() ? (explode(' ', Auth::user()->name)[1] ?? '') : '' }}">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label>Email Address</label>
-                    <input type="email" class="form-control" placeholder="neraj@example.com" required>
+                    <input type="email" name="email" class="form-control" placeholder="neraj@example.com" required value="{{ Auth::check() ? Auth::user()->email : '' }}">
                 </div>
                 
                 <div class="form-group">
                     <label>Street Address</label>
-                    <input type="text" class="form-control" placeholder="House number and street name" required>
+                    <input type="text" name="address" class="form-control" placeholder="House number and street name" required value="{{ $address->address_line1 ?? '' }}">
                 </div>
                 
                 <div class="form-group">
                     <label>Apartment, suite, etc. (optional)</label>
-                    <input type="text" class="form-control" placeholder="">
+                    <input type="text" name="apartment" class="form-control" placeholder="" value="{{ $address->address_line2 ?? '' }}">
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>City</label>
-                        <input type="text" class="form-control" placeholder="Mumbai" required>
+                        <input type="text" name="city" class="form-control" placeholder="Mumbai" required value="{{ $address->city ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label>State / Province</label>
-                        <select class="form-control" required>
+                        <select name="state" class="form-control" required>
                             <option value="">Select State</option>
-                            <option value="MH">Maharashtra</option>
-                            <option value="DL">Delhi</option>
-                            <option value="KA">Karnataka</option>
-                            <option value="TN">Tamil Nadu</option>
-                            <!-- Add more as needed -->
+                            <option value="AP" {{ ($address->state ?? '') == 'AP' ? 'selected' : '' }}>Andhra Pradesh</option>
+                            <option value="AR" {{ ($address->state ?? '') == 'AR' ? 'selected' : '' }}>Arunachal Pradesh</option>
+                            <option value="AS" {{ ($address->state ?? '') == 'AS' ? 'selected' : '' }}>Assam</option>
+                            <option value="BR" {{ ($address->state ?? '') == 'BR' ? 'selected' : '' }}>Bihar</option>
+                            <option value="CG" {{ ($address->state ?? '') == 'CG' ? 'selected' : '' }}>Chhattisgarh</option>
+                            <option value="GA" {{ ($address->state ?? '') == 'GA' ? 'selected' : '' }}>Goa</option>
+                            <option value="GJ" {{ ($address->state ?? '') == 'GJ' ? 'selected' : '' }}>Gujarat</option>
+                            <option value="HR" {{ ($address->state ?? '') == 'HR' ? 'selected' : '' }}>Haryana</option>
+                            <option value="HP" {{ ($address->state ?? '') == 'HP' ? 'selected' : '' }}>Himachal Pradesh</option>
+                            <option value="JH" {{ ($address->state ?? '') == 'JH' ? 'selected' : '' }}>Jharkhand</option>
+                            <option value="KA" {{ ($address->state ?? '') == 'KA' ? 'selected' : '' }}>Karnataka</option>
+                            <option value="KL" {{ ($address->state ?? '') == 'KL' ? 'selected' : '' }}>Kerala</option>
+                            <option value="MP" {{ ($address->state ?? '') == 'MP' ? 'selected' : '' }}>Madhya Pradesh</option>
+                            <option value="MH" {{ ($address->state ?? '') == 'MH' ? 'selected' : '' }}>Maharashtra</option>
+                            <option value="MN" {{ ($address->state ?? '') == 'MN' ? 'selected' : '' }}>Manipur</option>
+                            <option value="ML" {{ ($address->state ?? '') == 'ML' ? 'selected' : '' }}>Meghalaya</option>
+                            <option value="MZ" {{ ($address->state ?? '') == 'MZ' ? 'selected' : '' }}>Mizoram</option>
+                            <option value="NL" {{ ($address->state ?? '') == 'NL' ? 'selected' : '' }}>Nagaland</option>
+                            <option value="OR" {{ ($address->state ?? '') == 'OR' ? 'selected' : '' }}>Odisha</option>
+                            <option value="PB" {{ ($address->state ?? '') == 'PB' ? 'selected' : '' }}>Punjab</option>
+                            <option value="RJ" {{ ($address->state ?? '') == 'RJ' ? 'selected' : '' }}>Rajasthan</option>
+                            <option value="SK" {{ ($address->state ?? '') == 'SK' ? 'selected' : '' }}>Sikkim</option>
+                            <option value="TN" {{ ($address->state ?? '') == 'TN' ? 'selected' : '' }}>Tamil Nadu</option>
+                            <option value="TG" {{ ($address->state ?? '') == 'TG' ? 'selected' : '' }}>Telangana</option>
+                            <option value="TR" {{ ($address->state ?? '') == 'TR' ? 'selected' : '' }}>Tripura</option>
+                            <option value="UP" {{ ($address->state ?? '') == 'UP' ? 'selected' : '' }}>Uttar Pradesh</option>
+                            <option value="UT" {{ ($address->state ?? '') == 'UT' ? 'selected' : '' }}>Uttarakhand</option>
+                            <option value="WB" {{ ($address->state ?? '') == 'WB' ? 'selected' : '' }}>West Bengal</option>
+                            <option value="AN" {{ ($address->state ?? '') == 'AN' ? 'selected' : '' }}>Andaman and Nicobar Islands</option>
+                            <option value="CH" {{ ($address->state ?? '') == 'CH' ? 'selected' : '' }}>Chandigarh</option>
+                            <option value="DN" {{ ($address->state ?? '') == 'DN' ? 'selected' : '' }}>Dadra and Nagar Haveli and Daman and Diu</option>
+                            <option value="DL" {{ ($address->state ?? '') == 'DL' ? 'selected' : '' }}>Delhi</option>
+                            <option value="JK" {{ ($address->state ?? '') == 'JK' ? 'selected' : '' }}>Jammu and Kashmir</option>
+                            <option value="LA" {{ ($address->state ?? '') == 'LA' ? 'selected' : '' }}>Ladakh</option>
+                            <option value="LD" {{ ($address->state ?? '') == 'LD' ? 'selected' : '' }}>Lakshadweep</option>
+                            <option value="PY" {{ ($address->state ?? '') == 'PY' ? 'selected' : '' }}>Puducherry</option>
                         </select>
                     </div>
                 </div>
@@ -240,17 +271,17 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>ZIP / Postal Code</label>
-                        <input type="text" class="form-control" placeholder="400001" required>
+                        <input type="text" name="zip" class="form-control" placeholder="400001" required value="{{ $address->zip ?? '' }}">
                     </div>
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" class="form-control" placeholder="+91 98765 43210" required>
+                        <input type="tel" name="phone" class="form-control" placeholder="+91 98765 43210" required value="{{ Auth::user()->phone ?? ($address->phone ?? '') }}">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label>Order Notes (Optional)</label>
-                    <textarea class="form-control" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                    <textarea name="notes" class="form-control" rows="3" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                 </div>
             </form>
         </div>
@@ -261,26 +292,26 @@
                 <h2 class="section-title">Your Order</h2>
                 
                 <div class="cart-items-review">
+                    @forelse($cart as $id => $details)
                     <div class="summary-item">
-                        <div>
-                            <div class="prod-name">Purple Mystique</div>
-                            <div class="prod-meta">Qty: 1</div>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <img src="{{ $details['image'] }}" alt="{{ $details['name'] }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" onerror="this.src='{{ asset('images/g-load.webp') }}'">
+                            <div>
+                                <div class="prod-name">{{ $details['name'] }}</div>
+                                <div class="prod-meta">Qty: {{ $details['quantity'] }} @if(isset($details['size'])) | {{ $details['size'] }} @endif</div>
+                            </div>
                         </div>
-                        <div class="prod-price">₹1,500</div>
+                        <div class="prod-price">₹{{ number_format($details['price'] * $details['quantity']) }}</div>
                     </div>
-                    <div class="summary-item">
-                        <div>
-                            <div class="prod-name">Dark Oud</div>
-                            <div class="prod-meta">Qty: 1</div>
-                        </div>
-                        <div class="prod-price">₹2,200</div>
-                    </div>
+                    @empty
+                    <p>Your cart is empty.</p>
+                    @endforelse
                 </div>
                 
                 <div style="margin: 20px 0; border-top: 1px solid #ddd; padding-top: 20px;">
                     <div class="totals-row">
                         <span>Subtotal</span>
-                        <span>₹3,700</span>
+                        <span>₹{{ number_format($subtotal) }}</span>
                     </div>
                     <div class="totals-row">
                         <span>Shipping</span>
@@ -288,7 +319,7 @@
                     </div>
                     <div class="final-total">
                         <span>Total</span>
-                        <span>₹3,700</span>
+                        <span>₹{{ number_format($subtotal) }}</span>
                     </div>
                 </div>
                 
@@ -303,10 +334,10 @@
                 </div>
                 
                 <p style="font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.6;">
-                    Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#" style="color: var(--black); text-decoration: underline;">privacy policy</a>.
+                    Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="{{ route("terms-of-service") }}" style="color: var(--black); text-decoration: underline;">privacy policy</a>.
                 </p>
                 
-                <button type="button" class="place-order-btn" onclick="placeOrder()">Place Crder</button>
+                <button type="button" class="place-order-btn" onclick="placeOrder()">Place Order</button>
             </div>
         </div>
     </div>
@@ -314,7 +345,25 @@
 
 @push('scripts')
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        @guest
+            // Trigger login popup for guests
+            setTimeout(() => {
+                if(typeof openLogin === 'function') {
+                    openLogin();
+                } else {
+                    console.warn('openLogin function not found');
+                }
+            }, 500);
+        @endguest
+    });
+
     function placeOrder() {
+        @guest
+            openLogin();
+            return;
+        @endguest
+
         const form = document.getElementById('shippingForm');
         if (form.checkValidity()) {
             // Show loading state
@@ -322,11 +371,37 @@
             const originalText = btn.innerText;
             btn.innerText = 'Processing...';
             btn.disabled = true;
+
+            // Collect form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
             
-            setTimeout(() => {
-                alert('Order Placed Successfully! Order ID: #NR-' + Math.floor(100000 + Math.random() * 900000));
-                window.location.href = "{{ route('home') }}";
-            }, 2000);
+            fetch('{{ route("order.place") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Order Placed Successfully! Order ID: ' + data.order_id);
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert('Error: ' + data.message);
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            });
+            
         } else {
             form.reportValidity();
         }

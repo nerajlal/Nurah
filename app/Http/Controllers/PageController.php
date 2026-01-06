@@ -250,4 +250,59 @@ class PageController extends Controller
     {
         return view('nurah.terms-of-service');
     }
+
+    public function checkout()
+    {
+        $cart = [];
+        $address = null; // Default address variable
+
+        if(\Illuminate\Support\Facades\Auth::check()) {
+             // Fetch Address
+             $address = \App\Models\UserAddress::where('user_id', \Illuminate\Support\Facades\Auth::id())
+                ->where('is_default', true)
+                ->first();
+             
+             // If no default, get the first one
+             if(!$address) {
+                 $address = \App\Models\UserAddress::where('user_id', \Illuminate\Support\Facades\Auth::id())->first();
+             }
+
+             $items = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->with(['product', 'bundle'])->get();
+             $items = \App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->with(['product', 'bundle'])->get();
+             foreach($items as $item) {
+                 if($item->product_id && $item->product) {
+                    $cart[$item->product_id . '-' . $item->size] = [
+                        "name" => $item->product->title,
+                        "quantity" => $item->quantity,
+                        "price" => $item->product->starting_price,
+                        "image" => $item->product->main_image_url,
+                        "product_id" => $item->product_id,
+                        "bundle_id" => null,
+                        "size" => $item->size,
+                        "type" => "product"
+                    ];
+                } elseif ($item->bundle_id && $item->bundle) {
+                    $cart['bundle-' . $item->bundle_id] = [
+                        "name" => $item->bundle->title,
+                        "quantity" => $item->quantity,
+                        "price" => $item->bundle->total_price,
+                        "image" => \Illuminate\Support\Facades\Storage::url($item->bundle->image),
+                        "product_id" => null,
+                        "bundle_id" => $item->bundle_id,
+                        "size" => null,
+                        "type" => "bundle"
+                    ];
+                }
+             }
+        } else {
+            $cart = session()->get('cart', []);
+        }
+
+        $subtotal = 0;
+        foreach($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+        
+        return view('nurah.checkout', compact('cart', 'subtotal', 'address'));
+    }
 }

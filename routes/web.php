@@ -17,10 +17,11 @@ Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name
 Route::post('/cart/add', [App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [App\Http\Controllers\CartController::class, 'remove'])->name('cart.remove');
-Route::view('/checkout', 'nurah.checkout')->name('checkout');
+Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
 Route::get('/shipping-policy', [PageController::class, 'shippingPolicy'])->name('shipping-policy');
 Route::get('/return-policy', [PageController::class, 'returnPolicy'])->name('return-policy');
 Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
+Route::post('/order/place', [App\Http\Controllers\OrderController::class, 'store'])->name('order.place');
 
 // User Auth Routes
 Route::post('/register', [App\Http\Controllers\AuthController::class, 'register'])->name('register');

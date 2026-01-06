@@ -187,9 +187,9 @@
 
     /* Testimonials */
     .testimonials { background: var(--bg-light); padding: 80px 20px; }
-    .testimonial-slider { display: flex; overflow-x: auto; gap: 20px; padding: 10px 5px 30px; scrollbar-width: none; -ms-overflow-style: none; }
+    .testimonial-slider { display: flex; overflow-x: auto; gap: 20px; padding: 10px 5px 30px; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x mandatory; }
     .testimonial-slider::-webkit-scrollbar { display: none; }
-    .testimonial-card { min-width: 300px; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); }
+    .testimonial-card { min-width: 300px; background: var(--white); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03); scroll-snap-align: center; }
     .testimonial-text { font-size: 16px; line-height: 1.8; margin-bottom: 25px; color: var(--text); font-style: italic; }
     .testimonial-author { font-weight: 700; color: var(--black); font-size: 15px; margin-bottom: 5px; }
     .testimonial-location { font-size: 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; }

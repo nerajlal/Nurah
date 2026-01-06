@@ -23,41 +23,61 @@
                 @forelse($usersWithCarts as $user)
                 <tr>
                     <td class="px-3 py-3 align-top" style="width: 250px;">
-                        <div class="d-flex align-items-center gap-3">
+                        <a href="{{ route('admin.customers.show', $user->id) }}" class="d-flex align-items-center gap-3 text-decoration-none text-dark">
                             <div class="d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 rounded-circle text-secondary fw-bold" style="width: 40px; height: 40px;">
                                 {{ substr($user->name, 0, 1) }}
                             </div>
                             <div class="d-flex flex-column">
-                                <span class="fw-medium text-dark">{{ $user->name }}</span>
+                                <span class="fw-medium text-dark hover-text-primary">{{ $user->name }}</span>
                                 <span class="small text-muted">{{ $user->email }}</span>
                                 @if($user->phone_number)
                                     <span class="small text-muted">{{ $user->phone_number }}</span>
                                 @endif
                             </div>
-                        </div>
+                        </a>
                     </td>
                     <td class="px-3 py-3">
                         <div class="d-flex flex-column gap-2">
                             @foreach($user->cart as $item)
+                                @php
+                                    $price = 0;
+                                    $image = '';
+                                    $title = '';
+                                    
+                                    if($item->bundle) {
+                                        $price = $item->bundle->total_price;
+                                        $image = \Illuminate\Support\Facades\Storage::url($item->bundle->image);
+                                        $title = $item->bundle->title;
+                                    } elseif($item->product) {
+                                        $price = $item->product->starting_price;
+                                        if($item->size) {
+                                            $variant = $item->product->variants->where('size', $item->size)->first();
+                                            if($variant) $price = $variant->price;
+                                        }
+                                        $image = $item->product->main_image_url;
+                                        $title = $item->product->title;
+                                    }
+                                @endphp
                                 <div class="d-flex align-items-center gap-3 border rounded p-2 bg-light bg-opacity-50">
                                     <div class="rounded bg-white border d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; overflow: hidden; flex-shrink: 0;">
-                                        @if($item->product && $item->product->images->isNotEmpty())
-                                            <img src="{{ $item->product->images->first()->image_path }}" alt="{{ $item->product->title }}" class="w-100 h-100 object-fit-cover">
+                                        @if($image)
+                                            <img src="{{ $image }}" alt="{{ $title }}" class="w-100 h-100 object-fit-cover">
                                         @else
                                             <i class="fas fa-box text-secondary opacity-50"></i>
                                         @endif
                                     </div>
                                     <div class="flex-grow-1">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="text-dark small fw-medium">{{ $item->product ? $item->product->title : 'Unknown Product' }}</span>
+                                            <span class="text-dark small fw-medium">{{ $title }}</span>
                                             <span class="text-dark small fw-bold">x{{ $item->quantity }}</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="text-muted small" style="font-size: 0.75rem;">
                                                 @if($item->size) Size: {{ $item->size }} @endif
+                                                @if($item->bundle) (Bundle) @endif
                                             </span>
                                             <span class="text-secondary small">
-                                                 ₹{{ number_format(($item->product->sale_price ?? $item->product->price) * $item->quantity, 2) }}
+                                                 ₹{{ number_format($price * $item->quantity, 2) }}
                                             </span>
                                         </div>
                                     </div>
@@ -68,7 +88,17 @@
                     <td class="px-3 py-3 text-end align-top fw-bold text-dark">
                         @php
                             $cartTotal = $user->cart->sum(function($item) {
-                                return ($item->product->sale_price ?? $item->product->price) * $item->quantity;
+                                if($item->bundle) {
+                                    return $item->bundle->total_price * $item->quantity;
+                                } elseif($item->product) {
+                                    $price = $item->product->starting_price;
+                                    if($item->size) {
+                                        $variant = $item->product->variants->where('size', $item->size)->first();
+                                        if($variant) $price = $variant->price;
+                                    }
+                                    return $price * $item->quantity;
+                                }
+                                return 0;
                             });
                         @endphp
                         ₹{{ number_format($cartTotal, 2) }}

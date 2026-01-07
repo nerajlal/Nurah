@@ -764,6 +764,30 @@
             grid-template-columns: repeat(4, 1fr);
         }
     }
+
+    /* Out of Stock Styles */
+    .btn-blurred {
+        filter: blur(2px);
+        opacity: 0.6;
+        pointer-events: none;
+        user-select: none;
+    }
+    
+    .out-of-stock-badge {
+        position: absolute;
+        bottom: 25px; /* Adjust based on button position */
+        left: 50%;
+        transform: translateX(-50%);
+        background: #000;
+        color: #fff;
+        padding: 5px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        border-radius: 4px;
+        z-index: 10;
+        white-space: nowrap;
+    }
 </style>
 @endpush
 
@@ -835,7 +859,14 @@
                         <h3 class="product-name">{{ $product->title }}</h3>
                         <p class="product-price"><span>From</span> ₹{{ number_format($product->starting_price, 0) }}</p>
                     </div>
-                    <button class="quick-view-btn" onclick="addToCart(event, {{ $product->id }})">Add to Cart</button>
+                    <button class="quick-view-btn {{ $stock == 0 ? 'btn-blurred' : '' }}" 
+                            onclick="{{ $stock == 0 ? 'return false;' : 'addToCart(event, ' . $product->id . ')' }}"
+                            {{ $stock == 0 ? 'disabled' : '' }}>
+                        {{ $stock == 0 ? 'Out of Stock' : 'Add to Cart' }}
+                    </button>
+                    @if($stock == 0)
+                        <div class="out-of-stock-badge">Out of Stock</div>
+                    @endif
                 </div>
             </a>
             @empty

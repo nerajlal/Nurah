@@ -523,14 +523,29 @@
             </div>
 
             <!-- Actions Bar -->
-            <div class="actions-bar">
-                <div class="qty-counter">
-                    <button class="qty-control" onclick="updateQty(-1)">−</button>
-                    <span class="qty-number" id="qtyVal">1</span>
-                    <button class="qty-control" onclick="updateQty(1)">+</button>
-                </div>
-                <button class="btn-main" onclick="addToCart()">Add to Bag</button>
-                <button class="btn-secondary" onclick="location.href='/checkout'">But It Now</button>
+            <div class="actions-bar" style="position: relative;">
+                @if($product->variants->sum('stock') > 0)
+                    <div class="qty-counter">
+                        <button class="qty-control" onclick="updateQty(-1)">−</button>
+                        <span class="qty-number" id="qtyVal">1</span>
+                        <button class="qty-control" onclick="updateQty(1)">+</button>
+                    </div>
+                    <button class="btn-main" onclick="addToCart()">Add to Bag</button>
+                    <button class="btn-secondary" onclick="location.href='/checkout'">But It Now</button>
+                @else
+                    <div style="filter: blur(4px); pointer-events: none; opacity: 0.5; display: flex; gap: 20px; width: 100%;">
+                        <div class="qty-counter">
+                            <button class="qty-control">−</button>
+                            <span class="qty-number">1</span>
+                            <button class="qty-control">+</button>
+                        </div>
+                        <button class="btn-main">Add to Bag</button>
+                        <button class="btn-secondary">But It Now</button>
+                    </div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; color: #fff; padding: 10px 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; z-index: 101; white-space: nowrap;">
+                        Out of Stock
+                    </div>
+                @endif
             </div>
             
             <p style="text-align: center; margin-top: 15px; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px;">Free Shipping over ₹399 • 14-Day Returns</p>

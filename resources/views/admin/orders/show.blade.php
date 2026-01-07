@@ -34,7 +34,18 @@
                 </div>
                 <div class="list-group list-group-flush">
                     <div id="trackingInfo" class="list-group-item bg-info bg-opacity-10 border-bottom border-info border-opacity-25 {{ $order->tracking_number ? '' : 'd-none' }}">
-                         <p class="small text-info text-darken-2 fw-medium mb-0">Tracking Number: <span id="trackingNumberDisplay" class="fw-bold">{{ $order->tracking_number }}</span></p>
+                         <p class="small text-info text-darken-2 fw-medium mb-0">
+                            Tracking Number: <span id="trackingNumberDisplay" class="fw-bold">{{ $order->tracking_number }}</span>
+                            @if($order->deliveryPartner)
+                                <span class="mx-2">|</span>
+                                <span class="text-muted">via {{ $order->deliveryPartner->name }}</span>
+                                @if($order->deliveryPartner->tracking_url_template)
+                                    <a href="{{ str_replace('{tracking_number}', $order->tracking_number, $order->deliveryPartner->tracking_url_template) }}" target="_blank" class="ms-1 text-decoration-none">
+                                        <i class="fas fa-external-link-alt small"></i> Track
+                                    </a>
+                                @endif
+                            @endif
+                         </p>
                     </div>
                     @foreach($order->items as $item)
                     <div class="list-group-item p-3 d-flex gap-3">
@@ -162,39 +173,76 @@
 
         </div>
     </div>
+    <!-- Shipment Modal -->
+    <div class="modal fade" id="shipmentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Mark as Shipped</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tracking Number</label>
+                        <input type="text" id="modalTrackingId" class="form-control" placeholder="Enter tracking number">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Delivery Partner</label>
+                        <select id="modalDeliveryPartner" class="form-select">
+                            <option value="">Select Partner</option>
+                            @foreach($deliveryPartners as $partner)
+                                <option value="{{ $partner->id }}" {{ $partner->is_default ? 'selected' : '' }}>{{ $partner->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmShipment()">Confirm Shipment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     let orderStatus = '{{ $order->status }}';
 
     function advanceAction() {
-        const btn = document.getElementById('fulfillBtn');
-        const badge = document.getElementById('fulfillmentBadge');
-        
-        // Determine Next Status
-        let nextStatus = '';
-        let trackingId = null;
-
         if (orderStatus === 'pending') {
-            nextStatus = 'processing';
+            updateStatus('processing');
         } else if (orderStatus === 'processing') {
-            nextStatus = 'shipped';
-             trackingId = prompt("Please enter the Shipment Tracking ID:");
-            if(trackingId === null || trackingId.trim() === "") {
-                return; // Cancel action if no ID
-            }
+            // Show Modal for Shipping
+            new bootstrap.Modal(document.getElementById('shipmentModal')).show();
         } else if (orderStatus === 'shipped') {
-            nextStatus = 'delivered';
-        } else {
-            return; // No further actions
+            updateStatus('delivered');
+        }
+    }
+
+    function confirmShipment() {
+        const trackingId = document.getElementById('modalTrackingId').value;
+        const partnerId = document.getElementById('modalDeliveryPartner').value;
+
+        if (!trackingId) {
+            alert('Please enter a tracking number');
+            return;
         }
 
-        // UI Loading State
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('shipmentModal'));
+        modal.hide();
+
+        updateStatus('shipped', trackingId, partnerId);
+    }
+
+    function updateStatus(nextStatus, trackingId = null, partnerId = null) {
+        const btn = document.getElementById('fulfillBtn');
+        const badge = document.getElementById('fulfillmentBadge');
         const originalText = btn.innerHTML;
+        
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
         btn.disabled = true;
 
-        // Perform AJAX Call
         fetch('{{ route("admin.orders.update-status", $order->id) }}', {
             method: 'POST',
             headers: {
@@ -203,28 +251,34 @@
             },
             body: JSON.stringify({
                 status: nextStatus,
-                tracking_id: trackingId
+                tracking_id: trackingId,
+                delivery_partner_id: partnerId
             })
         })
         .then(response => response.json())
         .then(data => {
             if(data.success) {
-                // Update Local State
                 orderStatus = nextStatus;
-
-                // Update UI Elements based on new status
-                if (orderStatus === 'processing') {
+                
+                // Update Badge and Button
+                 if (orderStatus === 'processing') {
                     badge.className = 'badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-10 text-uppercase';
                     badge.innerText = 'Processing';
                     btn.innerHTML = 'Mark as Shipped';
-                    btn.className = 'btn btn-info text-white shadow-sm btn-sm fw-medium'; // Change color for shipping
+                    btn.className = 'btn btn-info text-white shadow-sm btn-sm fw-medium'; 
                     alert('Order marked as Processing!');
 
                 } else if (orderStatus === 'shipped') {
                     badge.className = 'badge bg-info bg-opacity-10 text-info border border-info border-opacity-10 text-uppercase';
                     badge.innerText = 'Shipped';
                     btn.innerHTML = 'Mark as Delivered';
-                    btn.className = 'btn btn-success text-white shadow-sm btn-sm fw-medium'; // Change color for delivered
+                    btn.className = 'btn btn-success text-white shadow-sm btn-sm fw-medium';
+                    
+                    // Show tracking info
+                    const trackingDisplay = document.getElementById('trackingInfo');
+                    document.getElementById('trackingNumberDisplay').innerText = trackingId;
+                    trackingDisplay.classList.remove('d-none');
+                    
                     alert('Order marked as Shipped!');
 
                 } else if (orderStatus === 'delivered') {
@@ -232,24 +286,20 @@
                     badge.innerText = 'Delivered';
                     btn.innerHTML = 'Completed';
                     btn.className = 'btn btn-light text-muted border shadow-sm btn-sm fw-medium disabled';
-                    btn.disabled = true; // Permanent disable
+                    btn.disabled = true;
                     alert('Order marked as Delivered!');
-                    return; // Return early to keep button disabled
                 }
             } else {
                 alert('Something went wrong. Please try again.');
                 btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         })
         .catch(error => {
             console.error('Error:', error);
             alert('An error occurred.');
             btn.innerHTML = originalText;
-        })
-        .finally(() => {
-            if(orderStatus !== 'delivered') {
-                btn.disabled = false;
-            }
+            btn.disabled = false;
         });
     }
 

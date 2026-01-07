@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\DeliveryPartner;
 
 class OrderController extends Controller
 {
@@ -23,8 +24,9 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['items.product', 'items.bundle.products.variants', 'user'])->findOrFail($id);
-        return view('admin.orders.show', compact('order'));
+        $order = Order::with(['items.product', 'items.bundle.products.variants', 'user', 'deliveryPartner'])->findOrFail($id);
+        $deliveryPartners = DeliveryPartner::where('status', true)->orderBy('is_default', 'desc')->get();
+        return view('admin.orders.show', compact('order', 'deliveryPartners'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -43,8 +45,13 @@ class OrderController extends Controller
             // OR I can add a tracking_number column. For "fully functional" usually means DB too.
             // But let's check order schema first. I'll stick to updating status for now and maybe notes.
             
-            if ($status == 'shipped' && $trackingId) {
-                 $order->tracking_number = $trackingId;
+            if ($status == 'shipped') {
+                 if ($trackingId) {
+                     $order->tracking_number = $trackingId;
+                 }
+                 if ($request->has('delivery_partner_id')) {
+                     $order->delivery_partner_id = $request->input('delivery_partner_id');
+                 }
             }
             
             $order->save();

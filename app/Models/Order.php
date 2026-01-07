@@ -25,7 +25,9 @@ class Order extends Model
         'shipping_address',
         'billing_address',
         'notes',
-        'placed_at'
+        'placed_at',
+        'tracking_number',
+        'delivery_partner_id'
     ];
 
     protected $casts = [
@@ -42,5 +44,10 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function deliveryPartner()
+    {
+        return $this->belongsTo(DeliveryPartner::class);
     }
 }

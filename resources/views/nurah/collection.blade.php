@@ -816,7 +816,7 @@
                data-sizes="{{ $sizes }}">
                
                 <div class="product-image-wrapper">
-                    <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button>
+                    <!-- <button class="favorite-btn" onclick="toggleFavorite(event, this)"><i class="far fa-heart"></i></button> -->
                     
                     @if($product->created_at->diffInDays(now()) < 7)
                         <span class="product-badge">New</span>

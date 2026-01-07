@@ -51,6 +51,20 @@ class HomeProductController extends Controller
         return redirect()->back()->with('success', 'Product added to Home Page.');
     }
 
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'order' => 'required|array',
+            'order.*' => 'exists:home_products,id',
+        ]);
+
+        foreach ($request->order as $index => $id) {
+            HomeProduct::where('id', $id)->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function destroy($id)
     {
         $homeProduct = HomeProduct::findOrFail($id);

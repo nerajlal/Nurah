@@ -38,14 +38,20 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light text-muted small text-uppercase">
                             <tr>
+                                <th class="px-2" style="width: 40px;"></th>
                                 <th class="px-4 py-3 fw-medium">Product</th>
                                 <th class="px-4 py-3 fw-medium">Price</th>
                                 <th class="px-4 py-3 text-end fw-medium">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable-home-products">
                             @forelse($selectedProducts as $item)
-                            <tr>
+                            <tr class="draggable-item" draggable="true" data-id="{{ $item->id }}">
+                                <td class="px-2">
+                                    <div class="cursor-move text-secondary px-2 handle">
+                                        <i class="fas fa-grip-vertical"></i>
+                                    </div>
+                                </td>
                                 <td class="px-4 py-3">
                                     <div class="d-flex align-items-center gap-3">
                                         <div class="rounded border p-1 bg-light d-flex align-items-center justify-content-center overflow-hidden" style="width: 48px; height: 48px;">
@@ -75,7 +81,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="3" class="text-center py-5 text-muted">No products selected yet.</td>
+                                <td colspan="4" class="text-center py-5 text-muted">No products selected yet.</td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -123,10 +129,81 @@
         border-color: var(--bs-danger) !important;
         color: white !important;
     }
+    .handle:hover { color: var(--bs-dark) !important; }
 </style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Drag and Drop Logic for Home Products
+        const sortContainer = document.getElementById('sortable-home-products');
+        if(sortContainer) {
+            let draggables = sortContainer.querySelectorAll('.draggable-item');
+
+            function initDraggables() {
+                draggables.forEach(draggable => {
+                    draggable.addEventListener('dragstart', () => {
+                        draggable.classList.add('dragging');
+                        draggable.classList.add('bg-light'); 
+                        draggable.style.opacity = '0.5';
+                    });
+
+                    draggable.addEventListener('dragend', () => {
+                        draggable.classList.remove('dragging');
+                        draggable.classList.remove('bg-light');
+                        draggable.style.opacity = '1';
+                        saveOrder();
+                    });
+                });
+            }
+
+            initDraggables();
+
+            sortContainer.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(sortContainer, e.clientY);
+                const draggable = document.querySelector('.dragging');
+                if (afterElement == null) {
+                    sortContainer.appendChild(draggable);
+                } else {
+                    sortContainer.insertBefore(draggable, afterElement);
+                }
+            });
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll('.draggable-item:not(.dragging)')];
+
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
+
+            function saveOrder() {
+                const items = sortContainer.querySelectorAll('.draggable-item');
+                const order = Array.from(items).map(item => item.getAttribute('data-id'));
+
+                fetch('{{ route("admin.settings.home-products.reorder") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ order: order })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        // Optional: Show toast
+                    }
+                });
+            }
+        }
+
         // Live search for All Products
         const searchInput = document.getElementById('search-all-products');
         const container = document.getElementById('all-products-container');

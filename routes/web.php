@@ -136,6 +136,7 @@ Route::delete('/admin/settings/slider/{id}', [App\Http\Controllers\Admin\SliderC
 
 Route::get('/admin/settings/home-products', [App\Http\Controllers\Admin\HomeProductController::class, 'index'])->name('admin.settings.home-products');
 Route::post('/admin/settings/home-products', [App\Http\Controllers\Admin\HomeProductController::class, 'store'])->name('admin.settings.home-products.store');
+Route::post('/admin/settings/home-products/reorder', [App\Http\Controllers\Admin\HomeProductController::class, 'reorder'])->name('admin.settings.home-products.reorder');
 Route::delete('/admin/settings/home-products/{id}', [App\Http\Controllers\Admin\HomeProductController::class, 'destroy'])->name('admin.settings.home-products.destroy');
 
 Route::view('/admin/settings/managers', 'admin.settings.managers.index')->name('admin.settings.managers');
